@@ -109,11 +109,9 @@ static void amdgpu_device_free_internal(amdgpu_device_handle dev)
 {
 	amdgpu_device_handle *node = &dev_list;
 
-	pthread_mutex_lock(&dev_mutex);
 	while (*node != dev && (*node)->next)
 		node = &(*node)->next;
 	*node = (*node)->next;
-	pthread_mutex_unlock(&dev_mutex);
 
 	close(dev->fd);
 	if ((dev->flink_fd >= 0) && (dev->fd != dev->flink_fd))
@@ -339,7 +337,9 @@ drm_public int amdgpu_device_deinitialize(amdgpu_device_handle dev)
 	if (dev->ion_fd)
 		exynos_ion_close(dev->ion_fd);
 #endif /* __ANDROID__ */
+	pthread_mutex_lock(&dev_mutex);
 	amdgpu_device_reference(&dev, NULL);
+	pthread_mutex_unlock(&dev_mutex);
 	return 0;
 }
 
