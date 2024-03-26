@@ -107,11 +107,17 @@ static int amdgpu_get_auth(int fd, int *auth)
 
 static void amdgpu_device_free_internal(amdgpu_device_handle dev)
 {
-	amdgpu_device_handle *node = &dev_list;
-
-	while (*node != dev && (*node)->next)
-		node = &(*node)->next;
-	*node = (*node)->next;
+	/* Remove dev from dev_list, if it was added there. */
+	if (dev == dev_list) {
+		dev_list = dev->next;
+	} else {
+		for (amdgpu_device_handle node = dev_list; node; node = node->next) {
+			if (node->next == dev) {
+				node->next = dev->next;
+				break;
+			}
+		}
+	}
 
 	close(dev->fd);
 	if ((dev->flink_fd >= 0) && (dev->fd != dev->flink_fd))
