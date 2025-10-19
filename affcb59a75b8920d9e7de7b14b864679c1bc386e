@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "04539f01_f983a621",
+        "filename": "sgpu_gralloc/Android.bp",
+        "patchSetId": 4
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 34207
+      },
+      "writtenOn": "2025-10-19T11:14:18Z",
+      "side": 0,
+      "message": "\"srcs\" can be dropped here, since we no longer change it with soong configs.",
+      "revId": "affcb59a75b8920d9e7de7b14b864679c1bc386e",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71"
+    }
+  ]
+}
