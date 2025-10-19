@@ -19,20 +19,11 @@ soong_config_module_type {
     module_type: "cc_defaults",
     config_namespace: "sgr",
     variables: [
-        "backend",
         "enable_sajc",
     ],
     properties: [
         "cflags",
         "srcs",
-    ],
-}
-
-soong_config_string_variable {
-    name: "backend",
-    values: [
-        "sgpu",
-        "mali",
     ],
 }
 
@@ -82,16 +73,6 @@ sgr_cc_defaults {
     ],
     shared_libs: sgr_common_shared_libs,
     soong_config_variables: {
-        backend: {
-            sgpu: {
-                cflags: ["-DANDROID_GRALLOC_GPU=ANDROID_GRALLOC_BACKEND_SGPU"],
-                srcs: ["src/core/sgpu_format_manager.cpp"],
-            },
-            mali: {
-                cflags: ["-DANDROID_GRALLOC_GPU=ANDROID_GRALLOC_BACKEND_MALI"],
-                srcs: ["src/core/mali_gpu_format_manager.cpp"],
-            },
-        },
         enable_sajc: {
             cflags: ["-DENABLE_SAJC_DEFAULT"],
         },

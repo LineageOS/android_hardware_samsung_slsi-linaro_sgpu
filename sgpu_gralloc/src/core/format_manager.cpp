@@ -13,10 +13,8 @@
 #include "hwc_format_manager.h"
 #include "format_manager.h"
 #include "linear_layout_manager.h"
-#include "mali_gpu_format_manager.h"
 #include "sbwc_layout_manager.h"
 #include "sgpu_format_manager.h"
-#include "swiftshader_format_manager.h"
 #include "util/util.h"
 #include "video_format_manager.h"
 
@@ -32,20 +30,11 @@ namespace gralloc {
 ///
 FormatManager::FormatManager()
 {
-        static CameraFormatManager camera_format_manager;
         static CpuFormatManager    cpu_format_manager;
-        static HwcFormatManager    hwc_format_manager;
-        static VideoFormatManager  video_format_manager;
-
-#if ANDROID_GRALLOC_GPU == ANDROID_GRALLOC_BACKEND_SGPU
         static SgpuFormatManager gpu_format_manager;
-#elif ANDROID_GRALLOC_GPU == ANDROID_GRALLOC_BACKEND_MALI
-        static MaliGpuFormatManager gpu_format_manager;
-#elif ANDROID_GRALLOC_GPU == ANDROID_GRALLOC_BACKEND_SWIFTSHADER
-        static SwiftshaderFormatManager gpu_format_manager;
-#else
-        #error "Invalid Backend. Only Sgpu, Mali and Swiftshader are allowed."
-#endif
+        static HwcFormatManager    hwc_format_manager;
+        static CameraFormatManager camera_format_manager;
+        static VideoFormatManager  video_format_manager;
 
         m_ip_format_manager[static_cast<uint32_t>(Ip::CPU)]    = &cpu_format_manager;
         m_ip_format_manager[static_cast<uint32_t>(Ip::GPU)]    = &gpu_format_manager;
