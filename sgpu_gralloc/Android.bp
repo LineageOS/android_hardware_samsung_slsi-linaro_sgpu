@@ -68,9 +68,6 @@ sgr_cc_defaults {
     ],
     relative_install_path: "hw",
     srcs: sgr_common_core_srcs,
-    cflags: [
-        "-Wno-unused-parameter",
-    ],
     shared_libs: sgr_common_shared_libs,
     soong_config_variables: {
         enable_sajc: {
