@@ -11,7 +11,6 @@
 #include <aidl/android/hardware/graphics/common/Smpte2086.h>
 #include <cutils/native_handle.h>
 
-#include "common.h"
 #include "hidl_defines.h"
 
 namespace android {

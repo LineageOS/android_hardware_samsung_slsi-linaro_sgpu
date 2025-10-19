@@ -6,7 +6,6 @@
 #include <string.h>
 
 #include "camera_format_manager.h"
-#include "common.h"
 #include "cpu_format_manager.h"
 #include "dcc_layout_manager.h"
 #include "debug_helper.h"

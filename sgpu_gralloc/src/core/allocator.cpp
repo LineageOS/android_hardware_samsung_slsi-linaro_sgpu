@@ -14,7 +14,6 @@
 #include "config.h"
 #include "exynos_ion_memory_manager.h"
 #include "hardware/exynos/eis_utils.h"
-#include "ion_memory_manager.h"
 #include "private_handle_helper.h"
 #include "util/util.h"
 
@@ -22,13 +21,7 @@ namespace android {
 namespace samsung {
 namespace gralloc {
 
-#if ANDROID_GRALLOC_MEMORY_MANAGER == EXYNOS_ION_MEMORY_MANAGER
-        static ExynosIonMemoryManager g_memory_manager;
-#elif ANDROID_GRALLOC_MEMORY_MANAGER == ION_MEMORY_MANAGER
-        static IonMemoryManager g_memory_manager;
-#else
-        #error "Invalid Memory manager. Only ION and Exynos-ION are allowed."
-#endif
+static ExynosIonMemoryManager g_memory_manager;
 
 static_assert(sizeof(sgr_metadata) < SGR_METADATA_SIZE_GRALLOC, "Invalid metadata size - gralloc");
 
