@@ -1,44 +1,30 @@
-///
-/// @file service.cpp
-/// @copyright 2020 Samsung Electronics
-///
+/*
+ * Copyright (C) 2025 The LineageOS Project
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
 
-#define LOG_TAG "android.hardware.graphics.allocator@4.0-service"
+#define LOG_TAG "android.hardware.graphics.allocator-aidl-service-sgr"
 
-#include <hidl/HidlTransportSupport.h>
+#include <android/binder_manager.h>
+#include <android/binder_process.h>
 
-#include "AllocatorHidl.h"
+#include "AllocatorAidl.h"
 #include "util/util.h"
+#include <android-base/logging.h>
 
-using android::sp;
-
-/// libhwbinder:
-using android::hardware::configureRpcThreadpool;
-using android::hardware::joinRpcThreadpool;
-
-/// Generated HIDL files
-using android::hardware::graphics::allocator::V4_0::IAllocator;
-using android::hardware::graphics::allocator::V4_0::implementation::Allocator;
-
-using android::status_t;
-using android::OK;
+using aidl::android::hardware::graphics::allocator::Allocator;
 
 int main() {
-    android::sp<IAllocator> service = new Allocator();
+    std::shared_ptr<Allocator> service = ndk::SharedRefBase::make<Allocator>();
 
-    configureRpcThreadpool(1, true);
+    std::string instance = std::string() + Allocator::descriptor + "/default";
+    binder_status_t status = AServiceManager_addService(service->asBinder().get(), instance.c_str());
+    CHECK(status == STATUS_OK);
 
-    status_t status = service->registerAsService();
-
-    if (status != OK) {
-        SGR_LOGE("Cannot register Allocator 4.0 HAL service");
-        /// @todo GFXSW-4079 Decide on return value
-        return 1;
-    }
-
-    SGR_LOGI("Allocator 4.0 HAL Ready.");
-    joinRpcThreadpool();
+    SGR_LOGI("Allocator AIDL HAL Ready.");
+    ABinderProcess_joinThreadPool();
     /// Under normal cases, execution will not reach this line.
-    SGR_LOGI("Allocator 4.0 HAL failed to join thread pool.");
-    return 1;
+    SGR_LOGE("Allocator AIDL HAL failed to join thread pool.");
+    return EXIT_FAILURE;
 }
