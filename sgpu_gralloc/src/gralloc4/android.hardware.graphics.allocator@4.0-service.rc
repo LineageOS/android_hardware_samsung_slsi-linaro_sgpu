@@ -1,8 +1,0 @@
-service vendor.gralloc-4-0 /vendor/bin/hw/android.hardware.graphics.allocator@4.0-service
-    class hal animation
-    interface android.hardware.graphics.allocator@4.0::IAllocator default
-    user system
-    group graphics drmrpc
-    capabilities SYS_NICE
-    seclabel u:object_r:hal_graphics_allocator_default_exec:s0
-    onrestart restart surfaceflinger
