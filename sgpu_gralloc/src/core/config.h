@@ -39,13 +39,7 @@ namespace gralloc {
 /// The default value is false.
 #define CONFIG_SAJC    "debug.sgr.enable_sajc"
 
-#if defined(ENABLE_SAJC_DEFAULT)
 #define CONFIG_SAJC_DEFAULT true
-
-#else
-#define CONFIG_SAJC_DEFAULT false
-
-#endif
 
 ///
 /// Specify buffer name substring which when found in requested buffer descriptor name,
