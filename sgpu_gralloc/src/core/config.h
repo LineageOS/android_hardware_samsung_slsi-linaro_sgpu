@@ -39,12 +39,10 @@ namespace gralloc {
 /// The default value is false.
 #define CONFIG_SAJC    "debug.sgr.enable_sajc"
 
-#if defined(ENABLE_SAJC_DEFAULT)
-#define CONFIG_SAJC_DEFAULT true
-
-#else
+#if defined(DISABLE_SAJC_DEFAULT)
 #define CONFIG_SAJC_DEFAULT false
-
+#else
+#define CONFIG_SAJC_DEFAULT true
 #endif
 
 ///
