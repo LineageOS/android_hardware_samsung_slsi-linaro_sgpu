@@ -9,7 +9,6 @@
 #include <mutex>
 #include <unordered_set>
 
-#include "common.h"
 #include "metadata_manager.h"
 #include "hidl_defines.h"
 
