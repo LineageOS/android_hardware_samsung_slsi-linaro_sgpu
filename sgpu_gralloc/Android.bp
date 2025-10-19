@@ -69,7 +69,6 @@ sgr_cc_defaults {
     srcs: sgr_common_core_srcs,
     cflags: [
         "-Wno-unused-parameter",
-        "-DANDROID_GRALLOC_MEMORY_MANAGER=EXYNOS_ION_MEMORY_MANAGER",
     ],
     shared_libs: sgr_common_shared_libs,
     soong_config_variables: {

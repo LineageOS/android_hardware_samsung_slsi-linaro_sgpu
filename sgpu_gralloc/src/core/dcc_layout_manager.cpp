@@ -3,7 +3,6 @@
 /// @copyright 2020 Samsung Electronics
 ///
 
-#include "common.h"
 #include "dcc_layout_manager.h"
 #include "debug_helper.h"
 #include "format_info.h"

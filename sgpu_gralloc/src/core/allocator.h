@@ -7,7 +7,6 @@
 
 #include <cstdint>
 
-#include "common.h"
 #include "format_info.h"
 #include "format_manager.h"
 #include "hidl_defines.h"

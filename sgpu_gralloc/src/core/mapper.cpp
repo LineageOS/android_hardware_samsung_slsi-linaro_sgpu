@@ -13,7 +13,6 @@
 #include "format_info.h"
 #include "interface/metadata_gralloc.h"
 #include "interface/private_handle.h"
-#include "ion_memory_manager.h"
 #include "mapper.h"
 #include "memory_manager.h"
 #include "private_handle_helper.h"
@@ -26,13 +25,7 @@ namespace android {
 namespace samsung {
 namespace gralloc {
 
-#if ANDROID_GRALLOC_MEMORY_MANAGER == EXYNOS_ION_MEMORY_MANAGER
-        static ExynosIonMemoryManager g_memory_manager;
-#elif ANDROID_GRALLOC_MEMORY_MANAGER == ION_MEMORY_MANAGER
-        static IonMemoryManager g_memory_manager;
-#else
-        #error "Invalid Memory manager. Only ION and Exynos-ION are allowed."
-#endif
+static ExynosIonMemoryManager g_memory_manager;
 
 std::unordered_set<const native_handle_t*> Mapper::m_imported_handles;
 std::mutex Mapper::m_imported_handles_lock;
