@@ -19,7 +19,7 @@ soong_config_module_type {
     module_type: "cc_defaults",
     config_namespace: "sgr",
     variables: [
-        "enable_sajc",
+        "disable_sajc",
     ],
     properties: [
         "cflags",
@@ -28,7 +28,7 @@ soong_config_module_type {
 }
 
 soong_config_bool_variable {
-    name: "enable_sajc",
+    name: "disable_sajc",
 }
 
 sgr_common_core_srcs = [
@@ -70,8 +70,8 @@ sgr_cc_defaults {
     srcs: sgr_common_core_srcs,
     shared_libs: sgr_common_shared_libs,
     soong_config_variables: {
-        enable_sajc: {
-            cflags: ["-DENABLE_SAJC_DEFAULT"],
+        disable_sajc: {
+            cflags: ["-DDISABLE_SAJC_DEFAULT"],
         },
     },
 }
