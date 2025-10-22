@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "de3ae27d_c60166ab",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 35850
+      },
+      "writtenOn": "2025-10-22T16:45:43Z",
+      "side": 1,
+      "message": "Verified on s5e9925 (r0s). Please review whole chain.",
+      "revId": "a923ba7655a67846dbc62ae10ff7f26357504049",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71"
+    }
+  ]
+}
