@@ -69,6 +69,18 @@ namespace gralloc {
 #define CONFIG_SAJC_DOUBLE_ALLOC_DEFAULT false
 
 ///
+/// Used to enable/disable SAJC 4k swizzle mode
+///
+/// The accepted values are
+/// true, to enable SAJC 4k swizzle mode
+/// false, to disable SAJC 4k swizzle mode
+///
+/// The default value is false.
+#define CONFIG_SAJC_4K_SWIZZLE    "debug.sgr.use_4k_swizzle_mode"
+
+#define CONFIG_SAJC_4K_SWIZZLE_DEFAULT false
+
+///
 /// Used to enable/disable setting the pattern that will be memset
 /// to all buffers on allocation
 ///
