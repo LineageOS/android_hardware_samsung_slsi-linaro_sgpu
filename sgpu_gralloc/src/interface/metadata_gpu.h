@@ -18,7 +18,7 @@
 struct sgr_metadata_gpu {
         // DCC info
 
-        // Only AMDGPU_SWIZZLE_MODE_64KB_R_X for DPU
+        // 27 for AMDGPU_SWIZZLE_MODE_64KB_R_X or 23 for AMDGPU_SWIZZLE_MODE_4KB_R_X for DPU
         uint32_t dcc_sw_mode                     __ENABLE_SETTER_GENERATION;
 
         // Only 0 for DPU - pipe unaligned
