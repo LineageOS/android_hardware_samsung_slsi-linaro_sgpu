@@ -31,6 +31,21 @@ static inline void get_dcc_data_block_extent_64kb_r_x_1xaa(PixelFormat format, s
         *extent = log2_bpe_to_block_extent[index];
 }
 
+static inline void get_dcc_data_block_extent_4kb_r_x_1xaa(PixelFormat format, sgr_extent_2d *extent)
+{
+        static const sgr_extent_2d log2_bpe_to_block_extent[] = {
+                {64, 64},     // bpe = 1
+                {64, 32},     // bpe = 2
+                {32, 32},     // bpe = 4
+                {32, 16},     // bpe = 8
+                {16, 16}      // bpe = 16
+        };
+
+        uint32_t index = get_log2_ffs(get_bps(format));
+        SGR_ASSERT(index < SGR_ARRAY_SIZE(log2_bpe_to_block_extent));
+        *extent = log2_bpe_to_block_extent[index];
+}
+
 ///
 /// @brief Get data size of 64kb_r_x_1xaa and plane information
 ///
@@ -86,6 +101,61 @@ static inline uint32_t get_data_size_64kb_r_x_1xaa(PixelFormat format,
         return plane->total_size_in_bytes;
 }
 
+///
+/// @brief Get data size of 4kb_r_x_1xaa and plane information
+///
+/// @param[in]  format        Format
+/// @param[in]  alloc_extent  Image extent
+/// @param[out] num_planes    Number of sgr_plane array.
+/// @param[out] plane_layouts Pointer to sgr_plane array.
+///
+/// @return data size in byte
+///
+static inline uint32_t get_data_size_4kb_r_x_1xaa(PixelFormat format,
+                                                   const sgr_extent_2d &alloc_extent,
+                                                   uint32_t *num_planes, sgr_plane_layout *plane_layouts)
+{
+        SGR_ASSERT(plane_layouts != nullptr);
+        SGR_ASSERT(num_planes != nullptr);
+
+        sgr_extent_2d data_block_extent = {};
+        get_dcc_data_block_extent_4kb_r_x_1xaa(format, &data_block_extent);
+        SGR_ASSERT((alloc_extent.width % data_block_extent.width) == 0);
+        SGR_ASSERT((alloc_extent.height % data_block_extent.height) == 0);
+
+        sgr_extent_2d alloc_extent_in_block = {};
+        alloc_extent_in_block.width = alloc_extent.width / data_block_extent.width;
+        alloc_extent_in_block.height = alloc_extent.height / data_block_extent.height;
+
+        constexpr uint32_t data_block_size = size_4k;
+        sgr_plane_layout *plane = &plane_layouts[0];
+
+        const component_info *comp_info = get_component_info(format);
+        plane->num_components = get_num_components(format);
+        uint32_t sample_bits = 0;
+        for (uint i = 0; i < SGR_MAX_NUM_PLANE_LAYOUT_COMPONENTS; i++) {
+                plane->components[i].component_type = comp_info[i].type;
+                plane->components[i].offset_in_bits = sample_bits;
+                plane->components[i].size_in_bits   = comp_info[i].bits;
+                sample_bits += comp_info[i].bits;
+        }
+
+        *num_planes = 1;
+        plane->offset_in_bytes = 0;
+        plane->sample_increment_in_bits = 0;
+        plane->width_in_samples = alloc_extent.width;
+        plane->height_in_samples = alloc_extent.height;
+        plane->total_size_in_bytes = alloc_extent_in_block.width *
+                                     data_block_size *
+                                     alloc_extent_in_block.height;
+        // Set stride with 0 since they are not meaningful for DCC
+        plane->stride_in_bytes = 0;
+        plane->horizontal_subsampling = 1;
+        plane->vertical_subsampling = 1;
+
+        return plane->total_size_in_bytes;
+}
+
 static inline void get_dcc_key_block_extent_64kb_r_x_1xaa(PixelFormat format, sgr_extent_2d *extent)
 {
         static const sgr_extent_2d log2_bpe_to_block_extent[] = {
@@ -95,6 +165,7 @@ static inline void get_dcc_key_block_extent_64kb_r_x_1xaa(PixelFormat format, sg
                 {512,  256},    // bpe = 8
                 {256,  256}     // bpe = 16
         };
+
 
         uint32_t index = get_log2_ffs(get_bps(format));
         SGR_ASSERT(index < SGR_ARRAY_SIZE(log2_bpe_to_block_extent));
@@ -133,7 +204,13 @@ static inline uint32_t get_key_size_64kb_r_x_1xaa(PixelFormat format,
 ///
 void DccLayoutManager::get_block_extent(PixelFormat format, sgr_extent_2d *extent) const
 {
-        get_dcc_data_block_extent_64kb_r_x_1xaa(format, extent);
+        bool use4k = android::base::GetBoolProperty(CONFIG_SAJC_4K_SWIZZLE, CONFIG_SAJC_4K_SWIZZLE_DEFAULT);
+
+        if (use4k) {
+                get_dcc_data_block_extent_4kb_r_x_1xaa(format, extent);
+        } else {
+                get_dcc_data_block_extent_64kb_r_x_1xaa(format, extent);
+        }
 }
 
 ///
@@ -173,6 +250,8 @@ uint32_t DccLayoutManager::get_alloc_info(PixelFormat format, uint32_t layer_cou
         SGR_UNUSED(ip_flags);
         SGR_UNUSED(usage);
 
+        bool use4k = android::base::GetBoolProperty(CONFIG_SAJC_4K_SWIZZLE, CONFIG_SAJC_4K_SWIZZLE_DEFAULT);
+
         get_alloc_extent(format, alloc_extent);
 
         SGR_LOGV("Alloc_infos = %p\n"
@@ -185,14 +264,20 @@ uint32_t DccLayoutManager::get_alloc_info(PixelFormat format, uint32_t layer_cou
         if (allocs != nullptr) {
                 sgr_alloc *alloc = &allocs[0];
 
-                alloc->alignment   = size_64k;
+                alloc->alignment = use4k ? size_4k : size_64k;
 
                 alloc->data.offset = 0;
-                alloc->data.size   = layer_count * get_data_size_64kb_r_x_1xaa(format,
-                                                                                *alloc_extent,
-                                                                                num_planes,
-                                                                                plane_layouts);
-
+                if (use4k) {
+                        alloc->data.size = layer_count * get_data_size_4kb_r_x_1xaa(format,
+                                                                                    *alloc_extent,
+                                                                                    num_planes,
+                                                                                    plane_layouts);
+                } else {
+                        alloc->data.size = layer_count * get_data_size_64kb_r_x_1xaa(format,
+                                                                                    *alloc_extent,
+                                                                                    num_planes,
+                                                                                    plane_layouts);
+                }
                 alloc->key.offset  = alloc->data.size;
                 alloc->key.size    = layer_count * get_key_size_64kb_r_x_1xaa(format,
                                                                                 *alloc_extent);
