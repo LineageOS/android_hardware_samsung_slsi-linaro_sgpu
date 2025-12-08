@@ -18,7 +18,7 @@
 struct sgr_metadata_gpu {
         // DCC info
 
-        // Only AMDGPU_SWIZZLE_MODE_64KB_R_X for DPU
+        // 27 for AMDGPU_SWIZZLE_MODE_64KB_R_X or 23 for AMDGPU_SWIZZLE_MODE_4KB_R_X for DPU
         uint32_t dcc_sw_mode                     __ENABLE_SETTER_GENERATION;
 
         // Only 0 for DPU - pipe unaligned
@@ -38,6 +38,12 @@ struct sgr_metadata_gpu {
 
         // 0 if this is a brand new AHB, set to 1 if the struct is initialized
         uint32_t is_metadata_initialized         __ENABLE_SETTER_GENERATION;
+};
+
+// SAJC swizzle mode values
+enum SW_MODE {
+    SAJC_SWIZZLE_4KB_R_X  = 0x00000017,
+    SAJC_SWIZZLE_64KB_R_X = 0x0000001b,
 };
 
 #endif //  SGR_METADATA_GPU_H_

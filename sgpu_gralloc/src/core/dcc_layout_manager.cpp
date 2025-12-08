@@ -31,6 +31,21 @@ static inline void get_dcc_data_block_extent_64kb_r_x_1xaa(PixelFormat format, s
         *extent = log2_bpe_to_block_extent[index];
 }
 
+static inline void get_dcc_data_block_extent_4kb_r_x_1xaa(PixelFormat format, sgr_extent_2d *extent)
+{
+        static const sgr_extent_2d log2_bpe_to_block_extent[] = {
+                {64, 64},     // bpe = 1
+                {64, 32},     // bpe = 2
+                {32, 32},     // bpe = 4
+                {32, 16},     // bpe = 8
+                {16, 16}      // bpe = 16
+        };
+
+        uint32_t index = get_log2_ffs(get_bps(format));
+        SGR_ASSERT(index < SGR_ARRAY_SIZE(log2_bpe_to_block_extent));
+        *extent = log2_bpe_to_block_extent[index];
+}
+
 ///
 /// @brief Get data size of 64kb_r_x_1xaa and plane information
 ///
@@ -49,7 +64,14 @@ static inline uint32_t get_data_size_64kb_r_x_1xaa(PixelFormat format,
         SGR_ASSERT(num_planes != nullptr);
 
         sgr_extent_2d data_block_extent = {};
-        get_dcc_data_block_extent_64kb_r_x_1xaa(format, &data_block_extent);
+
+        if(android::base::GetBoolProperty(CONFIG_SAJC_4K_SWIZZLE,
+                                          CONFIG_SAJC_4K_SWIZZLE_DEFAULT) == true) {
+                get_dcc_data_block_extent_4kb_r_x_1xaa(format, &data_block_extent);
+        } else {
+                get_dcc_data_block_extent_64kb_r_x_1xaa(format, &data_block_extent);
+        }
+
         SGR_ASSERT((alloc_extent.width % data_block_extent.width) == 0);
         SGR_ASSERT((alloc_extent.height % data_block_extent.height) == 0);
 
@@ -57,7 +79,11 @@ static inline uint32_t get_data_size_64kb_r_x_1xaa(PixelFormat format,
         alloc_extent_in_block.width = alloc_extent.width / data_block_extent.width;
         alloc_extent_in_block.height = alloc_extent.height / data_block_extent.height;
 
-        constexpr uint32_t data_block_size = size_64k;
+        uint32_t data_block_size = size_64k;
+        if(android::base::GetBoolProperty(CONFIG_SAJC_4K_SWIZZLE,
+                                          CONFIG_SAJC_4K_SWIZZLE_DEFAULT) == true) {
+                data_block_size = size_4k;
+        }
         sgr_plane_layout *plane = &plane_layouts[0];
 
         const component_info *comp_info = get_component_info(format);
@@ -133,7 +159,12 @@ static inline uint32_t get_key_size_64kb_r_x_1xaa(PixelFormat format,
 ///
 void DccLayoutManager::get_block_extent(PixelFormat format, sgr_extent_2d *extent) const
 {
-        get_dcc_data_block_extent_64kb_r_x_1xaa(format, extent);
+        if(android::base::GetBoolProperty(CONFIG_SAJC_4K_SWIZZLE,
+                                          CONFIG_SAJC_4K_SWIZZLE_DEFAULT) == true) {
+                get_dcc_data_block_extent_4kb_r_x_1xaa(format, extent);
+        } else {
+                get_dcc_data_block_extent_64kb_r_x_1xaa(format, extent);
+        }
 }
 
 ///
@@ -184,8 +215,12 @@ uint32_t DccLayoutManager::get_alloc_info(PixelFormat format, uint32_t layer_cou
 
         if (allocs != nullptr) {
                 sgr_alloc *alloc = &allocs[0];
-
                 alloc->alignment   = size_64k;
+
+                if(android::base::GetBoolProperty(CONFIG_SAJC_4K_SWIZZLE,
+                                                  CONFIG_SAJC_4K_SWIZZLE_DEFAULT) == true) {
+                        alloc->alignment = size_4k;
+                }
 
                 alloc->data.offset = 0;
                 alloc->data.size   = layer_count * get_data_size_64kb_r_x_1xaa(format,
