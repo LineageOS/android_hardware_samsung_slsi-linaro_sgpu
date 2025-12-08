@@ -52,6 +52,11 @@ cc_defaults {
     relative_install_path: "hw",
     srcs: sgr_common_core_srcs,
     shared_libs: sgr_common_shared_libs,
+
+    cflags: select(soong_config_variable("sgr", "enable_swizzle_4k_mode"), {
+        true: ["-DENABLE_SWIZZLE_4K_MODE"],
+        default: [],
+    })
 }
 
 cc_binary {
