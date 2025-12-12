@@ -38,14 +38,15 @@ namespace gralloc {
         }
 
 // Stripped out at compile time for release build. Uncomment the following to enable it
-// #define LOG_NDEBUG 0
-#define SGR_LOGV(msg, ...) ALOGV("[%s] " msg, __func__, ##__VA_ARGS__)
+#undef LOG_NDEBUG
+#define LOG_NDEBUG 0
+#define SGR_LOGV(msg, ...) ALOGV("SGRDARIO [%s] " msg, __func__, ##__VA_ARGS__)
 
-#define SGR_LOGI(msg, ...) ALOGI("[%s] " msg, __func__, ##__VA_ARGS__)
+#define SGR_LOGI(msg, ...) ALOGI("SGRDARIO [%s] " msg, __func__, ##__VA_ARGS__)
 
-#define SGR_LOGE(msg, ...) ALOGE("[%s] " msg, __func__, ##__VA_ARGS__)
+#define SGR_LOGE(msg, ...) ALOGE("SGRDARIO [%s] " msg, __func__, ##__VA_ARGS__)
 
-#define SGR_LOGD(msg, ...) ALOGD("[%s] " msg, __func__, ##__VA_ARGS__)
+#define SGR_LOGD(msg, ...) ALOGD("SGRDARIO [%s] " msg, __func__, ##__VA_ARGS__)
 
 #define SGR_MAX(a, b) (((a) > (b)) ? (a) : (b))
 

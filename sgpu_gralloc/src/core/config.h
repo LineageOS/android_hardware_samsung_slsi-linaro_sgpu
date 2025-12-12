@@ -20,14 +20,14 @@ namespace gralloc {
 ///
 #define CONFIG_VERBOSE "debug.sgr.verbose"
 
-#define CONFIG_VERBOSE_DEFAULT false
+#define CONFIG_VERBOSE_DEFAULT true
 
 ///
 ///
 ///
 #define CONFIG_VERBOSE_ALLOC "debug.sgr.verbose_alloc"
 
-#define CONFIG_VERBOSE_ALLOC_DEFAULT false
+#define CONFIG_VERBOSE_ALLOC_DEFAULT true
 
 ///
 /// Used to enable/disable SAJC.

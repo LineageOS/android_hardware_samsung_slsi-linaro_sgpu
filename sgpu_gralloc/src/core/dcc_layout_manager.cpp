@@ -18,21 +18,7 @@ constexpr uint32_t size_64k = 64 * 1024;
 
 static inline void get_dcc_data_block_extent_64kb_r_x_1xaa(PixelFormat format, sgr_extent_2d *extent)
 {
-        static const sgr_extent_2d log2_bpe_to_block_extent[] = {
-                {256, 256},     // bpe = 1
-                {256, 128},     // bpe = 2
-                {128, 128},     // bpe = 4
-                {128, 64},      // bpe = 8
-                {64,  64}       // bpe = 16
-        };
-
-        uint32_t index = get_log2_ffs(get_bps(format));
-        SGR_ASSERT(index < SGR_ARRAY_SIZE(log2_bpe_to_block_extent));
-        *extent = log2_bpe_to_block_extent[index];
-}
-
-static inline void get_dcc_data_block_extent_4kb_r_x_1xaa(PixelFormat format, sgr_extent_2d *extent)
-{
+        SGR_LOGI("enter");
         static const sgr_extent_2d log2_bpe_to_block_extent[] = {
                 {64, 64},     // bpe = 1
                 {64, 32},     // bpe = 2
@@ -44,6 +30,24 @@ static inline void get_dcc_data_block_extent_4kb_r_x_1xaa(PixelFormat format, sg
         uint32_t index = get_log2_ffs(get_bps(format));
         SGR_ASSERT(index < SGR_ARRAY_SIZE(log2_bpe_to_block_extent));
         *extent = log2_bpe_to_block_extent[index];
+        SGR_LOGI("exit");
+}
+
+static inline void get_dcc_data_block_extent_4kb_r_x_1xaa(PixelFormat format, sgr_extent_2d *extent)
+{
+        SGR_LOGI("enter");
+        static const sgr_extent_2d log2_bpe_to_block_extent[] = {
+                {64, 64},     // bpe = 1
+                {64, 32},     // bpe = 2
+                {32, 32},     // bpe = 4
+                {32, 16},     // bpe = 8
+                {16, 16}      // bpe = 16
+        };
+
+        uint32_t index = get_log2_ffs(get_bps(format));
+        SGR_ASSERT(index < SGR_ARRAY_SIZE(log2_bpe_to_block_extent));
+        *extent = log2_bpe_to_block_extent[index];
+        SGR_LOGI("exit");
 }
 
 ///
@@ -60,66 +64,18 @@ static inline uint32_t get_data_size_64kb_r_x_1xaa(PixelFormat format,
                                                    const sgr_extent_2d &alloc_extent,
                                                    uint32_t *num_planes, sgr_plane_layout *plane_layouts)
 {
+        SGR_LOGI("enter");
         SGR_ASSERT(plane_layouts != nullptr);
         SGR_ASSERT(num_planes != nullptr);
 
         sgr_extent_2d data_block_extent = {};
         get_dcc_data_block_extent_64kb_r_x_1xaa(format, &data_block_extent);
-        SGR_ASSERT((alloc_extent.width % data_block_extent.width) == 0);
-        SGR_ASSERT((alloc_extent.height % data_block_extent.height) == 0);
 
-        sgr_extent_2d alloc_extent_in_block = {};
-        alloc_extent_in_block.width = alloc_extent.width / data_block_extent.width;
-        alloc_extent_in_block.height = alloc_extent.height / data_block_extent.height;
+        SGR_LOGI("DCC data_size_4K: format=%u (%s) alloc=%ux%u block=%ux%u",
+                format, get_pixel_format_string(format).c_str(),
+                alloc_extent.width, alloc_extent.height,
+                data_block_extent.width, data_block_extent.height);
 
-        constexpr uint32_t data_block_size = size_64k;
-        sgr_plane_layout *plane = &plane_layouts[0];
-
-        const component_info *comp_info = get_component_info(format);
-        plane->num_components = get_num_components(format);
-        uint32_t sample_bits = 0;
-        for (uint i = 0; i < SGR_MAX_NUM_PLANE_LAYOUT_COMPONENTS; i++) {
-                plane->components[i].component_type = comp_info[i].type;
-                plane->components[i].offset_in_bits = sample_bits;
-                plane->components[i].size_in_bits   = comp_info[i].bits;
-                sample_bits += comp_info[i].bits;
-        }
-
-        *num_planes = 1;
-        plane->offset_in_bytes = 0;
-        plane->sample_increment_in_bits = 0;
-        plane->width_in_samples = alloc_extent.width;
-        plane->height_in_samples = alloc_extent.height;
-        plane->total_size_in_bytes = alloc_extent_in_block.width *
-                                     data_block_size *
-                                     alloc_extent_in_block.height;
-        // Set stride with 0 since they are not meaningful for DCC
-        plane->stride_in_bytes = 0;
-        plane->horizontal_subsampling = 1;
-        plane->vertical_subsampling = 1;
-
-        return plane->total_size_in_bytes;
-}
-
-///
-/// @brief Get data size of 4kb_r_x_1xaa and plane information
-///
-/// @param[in]  format        Format
-/// @param[in]  alloc_extent  Image extent
-/// @param[out] num_planes    Number of sgr_plane array.
-/// @param[out] plane_layouts Pointer to sgr_plane array.
-///
-/// @return data size in byte
-///
-static inline uint32_t get_data_size_4kb_r_x_1xaa(PixelFormat format,
-                                                   const sgr_extent_2d &alloc_extent,
-                                                   uint32_t *num_planes, sgr_plane_layout *plane_layouts)
-{
-        SGR_ASSERT(plane_layouts != nullptr);
-        SGR_ASSERT(num_planes != nullptr);
-
-        sgr_extent_2d data_block_extent = {};
-        get_dcc_data_block_extent_4kb_r_x_1xaa(format, &data_block_extent);
         SGR_ASSERT((alloc_extent.width % data_block_extent.width) == 0);
         SGR_ASSERT((alloc_extent.height % data_block_extent.height) == 0);
 
@@ -153,23 +109,98 @@ static inline uint32_t get_data_size_4kb_r_x_1xaa(PixelFormat format,
         plane->horizontal_subsampling = 1;
         plane->vertical_subsampling = 1;
 
+
+        SGR_LOGI("DCC data_size_4K: blocks_x=%u blocks_y=%u block_size=%u total=%ld sample_bits=%u num_comp=%lld",
+                alloc_extent_in_block.width, alloc_extent_in_block.height, data_block_size, plane->total_size_in_bytes,
+                sample_bits, (long long)plane->num_components);
+        SGR_LOGI("exit");
+
+        return plane->total_size_in_bytes;
+}
+
+///
+/// @brief Get data size of 4kb_r_x_1xaa and plane information
+///
+/// @param[in]  format        Format
+/// @param[in]  alloc_extent  Image extent
+/// @param[out] num_planes    Number of sgr_plane array.
+/// @param[out] plane_layouts Pointer to sgr_plane array.
+///
+/// @return data size in byte
+///
+static inline uint32_t get_data_size_4kb_r_x_1xaa(PixelFormat format,
+                                                   const sgr_extent_2d &alloc_extent,
+                                                   uint32_t *num_planes, sgr_plane_layout *plane_layouts)
+{
+        SGR_LOGI("enter");
+        SGR_ASSERT(plane_layouts != nullptr);
+        SGR_ASSERT(num_planes != nullptr);
+
+        sgr_extent_2d data_block_extent = {};
+        get_dcc_data_block_extent_4kb_r_x_1xaa(format, &data_block_extent);
+
+        SGR_LOGI("DCC data_size_4K: format=%u (%s) alloc=%ux%u block=%ux%u",
+                format, get_pixel_format_string(format).c_str(),
+                alloc_extent.width, alloc_extent.height,
+                data_block_extent.width, data_block_extent.height);
+
+        SGR_ASSERT((alloc_extent.width % data_block_extent.width) == 0);
+        SGR_ASSERT((alloc_extent.height % data_block_extent.height) == 0);
+
+        sgr_extent_2d alloc_extent_in_block = {};
+        alloc_extent_in_block.width = alloc_extent.width / data_block_extent.width;
+        alloc_extent_in_block.height = alloc_extent.height / data_block_extent.height;
+
+        constexpr uint32_t data_block_size = size_4k;
+        sgr_plane_layout *plane = &plane_layouts[0];
+
+        const component_info *comp_info = get_component_info(format);
+        plane->num_components = get_num_components(format);
+        uint32_t sample_bits = 0;
+        for (uint i = 0; i < SGR_MAX_NUM_PLANE_LAYOUT_COMPONENTS; i++) {
+                plane->components[i].component_type = comp_info[i].type;
+                plane->components[i].offset_in_bits = sample_bits;
+                plane->components[i].size_in_bits   = comp_info[i].bits;
+                sample_bits += comp_info[i].bits;
+        }
+
+        *num_planes = 1;
+        plane->offset_in_bytes = 0;
+        plane->sample_increment_in_bits = 0;
+        plane->width_in_samples = alloc_extent.width;
+        plane->height_in_samples = alloc_extent.height;
+        plane->total_size_in_bytes = alloc_extent_in_block.width *
+                                     data_block_size *
+                                     alloc_extent_in_block.height;
+        // Set stride with 0 since they are not meaningful for DCC
+        plane->stride_in_bytes = 0;
+        plane->horizontal_subsampling = 1;
+        plane->vertical_subsampling = 1;
+
+        SGR_LOGI("DCC data_size_4K: blocks_x=%u blocks_y=%u block_size=%u total=%ld sample_bits=%u num_comp=%lld",
+                alloc_extent_in_block.width, alloc_extent_in_block.height, data_block_size, plane->total_size_in_bytes,
+                sample_bits, (long long)plane->num_components);
+        SGR_LOGI("exit");
+
         return plane->total_size_in_bytes;
 }
 
 static inline void get_dcc_key_block_extent_64kb_r_x_1xaa(PixelFormat format, sgr_extent_2d *extent)
 {
+        SGR_LOGI("enter");
         static const sgr_extent_2d log2_bpe_to_block_extent[] = {
-                {1024, 1024},   // bpe = 1
-                {1024, 512},    // bpe = 2
-                {512,  512},    // bpe = 4
-                {512,  256},    // bpe = 8
-                {256,  256}     // bpe = 16
+                {512, 512},   // bpe = 1
+                {512, 256},   // bpe = 2
+                {256, 256},   // bpe = 4
+                {256, 128},   // bpe = 8
+                {128, 128}    // bpe = 16
         };
 
 
         uint32_t index = get_log2_ffs(get_bps(format));
         SGR_ASSERT(index < SGR_ARRAY_SIZE(log2_bpe_to_block_extent));
         *extent = log2_bpe_to_block_extent[index];
+        SGR_LOGI("exit");
 }
 
 ///
@@ -183,6 +214,7 @@ static inline void get_dcc_key_block_extent_64kb_r_x_1xaa(PixelFormat format, sg
 static inline uint32_t get_key_size_64kb_r_x_1xaa(PixelFormat format,
                                                   const sgr_extent_2d &alloc_extent)
 {
+        SGR_LOGI("enter");
         sgr_extent_2d key_block_extent = {};
         get_dcc_key_block_extent_64kb_r_x_1xaa(format, &key_block_extent);
 
@@ -192,6 +224,14 @@ static inline uint32_t get_key_size_64kb_r_x_1xaa(PixelFormat format,
                 SGR_INT_DIV_CEIL(alloc_extent.width, key_block_extent.width);
         alloc_extent_in_block.height =
                 SGR_INT_DIV_CEIL(alloc_extent.height, key_block_extent.height);
+
+
+        SGR_LOGI("DCC key_size_64K: format=%u (%s) alloc=%ux%u key_block=%ux%u blocks_x=%u blocks_y=%u key_size=%u",
+             format, get_pixel_format_string(format).c_str(),
+             alloc_extent.width, alloc_extent.height,
+             key_block_extent.width, key_block_extent.height,
+             alloc_extent_in_block.width, alloc_extent_in_block.height, (alloc_extent_in_block.width * alloc_extent_in_block.height * key_block_size));
+        SGR_LOGI("exit");
 
         return alloc_extent_in_block.width * alloc_extent_in_block.height * key_block_size;
 }
@@ -204,12 +244,16 @@ static inline uint32_t get_key_size_64kb_r_x_1xaa(PixelFormat format,
 ///
 void DccLayoutManager::get_block_extent(PixelFormat format, sgr_extent_2d *extent) const
 {
+        SGR_LOGI("enter");
         if(android::base::GetBoolProperty(CONFIG_SAJC_4K_SWIZZLE,
                                           CONFIG_SAJC_4K_SWIZZLE_DEFAULT) == true) {
                 get_dcc_data_block_extent_4kb_r_x_1xaa(format, extent);
         } else {
                 get_dcc_data_block_extent_64kb_r_x_1xaa(format, extent);
         }
+        SGR_LOGI("result: width=%u height=%u",
+                extent->width, extent->height);
+        SGR_LOGI("exit");
 }
 
 ///
@@ -222,11 +266,22 @@ void DccLayoutManager::get_block_extent(PixelFormat format, sgr_extent_2d *exten
 ///
 void DccLayoutManager::get_alloc_extent(PixelFormat format, sgr_extent_2d *alloc_extent) const
 {
+        SGR_LOGI("enter");
+        SGR_LOGI("format=%u (%s) width=%u height=%u",
+                format, get_pixel_format_string(format).c_str(),
+                alloc_extent->width, alloc_extent->height);
+
         sgr_extent_2d block_extent = {};
         get_block_extent(format, &block_extent);
 
+        SGR_LOGI("block_extent=%ux%u",
+                block_extent.width, block_extent.height);
+
         alloc_extent->width = SGR_ALIGN(alloc_extent->width,   block_extent.width);
         alloc_extent->height = SGR_ALIGN(alloc_extent->height, block_extent.height);
+        SGR_LOGI("alloc_width=%u alloc_height=%u",
+                alloc_extent->width, alloc_extent->height);
+        SGR_LOGI("exit");
 }
 
 ///
@@ -246,12 +301,23 @@ uint32_t DccLayoutManager::get_alloc_info(PixelFormat format, uint32_t layer_cou
                                            sgr_extent_2d *alloc_extent, sgr_alloc *allocs,
                                            uint32_t *num_planes, sgr_plane_layout *plane_layouts, uint64_t usage) const
 {
+        SGR_LOGI("enter");
         SGR_UNUSED(ip_flags);
         SGR_UNUSED(usage);
 
+    SGR_LOGI("format=%u (%s) layers=%u "
+             "in_width=%u in_height=%u",
+             format, get_pixel_format_string(format).c_str(),
+             layer_count,
+             alloc_extent->width, alloc_extent->height);
+
         get_alloc_extent(format, alloc_extent);
 
-        SGR_LOGV("Alloc_infos = %p\n"
+
+        SGR_LOGI("after get_alloc_extent: alloc_width=%u alloc_height=%u",
+                alloc_extent->width, alloc_extent->height);
+
+        SGR_LOGI("Alloc_infos = %p\n"
                  "\t\talloc_extent.width  = %u\n"
                  "\t\talloc_extent.height = %u\n"
                  "\t\tformat = %u [%s]\n",
@@ -265,8 +331,10 @@ uint32_t DccLayoutManager::get_alloc_info(PixelFormat format, uint32_t layer_cou
                                                   CONFIG_SAJC_4K_SWIZZLE_DEFAULT) == true) {
                         alloc->alignment = size_4k;
                 } else {
-                        alloc->alignment = size_64k;
+                        alloc->alignment = size_4k;
                 }
+
+                SGR_LOGI("alignment=%u", alloc->alignment);
 
                 alloc->data.offset = 0;
                 if(android::base::GetBoolProperty(CONFIG_SAJC_4K_SWIZZLE,
@@ -285,21 +353,31 @@ uint32_t DccLayoutManager::get_alloc_info(PixelFormat format, uint32_t layer_cou
                 alloc->key.size    = layer_count * get_key_size_64kb_r_x_1xaa(format,
                                                                                 *alloc_extent);
                 alloc->total_size  = alloc->data.size + alloc->key.size;
-
+                SGR_LOGI("data_total=%u key_total=%u total=%u",
+                        alloc->data.size, alloc->key.size, alloc->total_size);
                 if(android::base::GetBoolProperty(CONFIG_SAJC_DOUBLE_ALLOC,
                                                   CONFIG_SAJC_DOUBLE_ALLOC_DEFAULT) == true) {
                         alloc->total_size *= 2;
-                        SGR_LOGV("Doubling DCC buffer alloc: total_size after 2X = %u",
+                        SGR_LOGI("Doubling DCC buffer alloc: total_size after 2X = %u",
                                   alloc->total_size);
                 } else {
                         /// For details on reason, and calculation of this additional size, please refer to GFXSW-6893
                         constexpr uint32_t dcc_svk_metadata_additional_size = 512;
                         alloc->total_size += dcc_svk_metadata_additional_size;
                 }
+                SGR_LOGI("plane[0]: num_comp=%lld offset_bytes=%lld "
+                        "sample_inc=%lld width_samp=%lld height_samp=%lld total_bytes=%lld",
+                        (long long)plane_layouts[0].num_components,
+                        (long long)plane_layouts[0].offset_in_bytes,
+                        (long long)plane_layouts[0].sample_increment_in_bits,
+                        (long long)plane_layouts[0].width_in_samples,
+                        (long long)plane_layouts[0].height_in_samples,
+                        (long long)plane_layouts[0].total_size_in_bytes);
         }
 
         constexpr uint32_t num_allocs = 1;
         return num_allocs;
+        SGR_LOGI("exit");
 }
 
 } // gralloc
