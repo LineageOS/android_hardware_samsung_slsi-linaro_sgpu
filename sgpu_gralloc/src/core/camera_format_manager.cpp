@@ -63,6 +63,9 @@ uint32_t CameraFormatManager::get_layout(PixelFormat format, const BufferDescrip
         case PixelFormat::PRIVATE_YCBCR_420_SP_M_10B_64_SBWC_L:
         case PixelFormat::PRIVATE_YCBCR_420_SPN_10B_32_SBWC_L:
         case PixelFormat::PRIVATE_YCBCR_420_SPN_10B_64_SBWC_L:
+        /* SBWC Lossy formats over v2.8 */
+        case PixelFormat::PRIVATE_YCBCR_420_SP_M_64_SBWC_L_FR:
+        case PixelFormat::PRIVATE_YCBCR_420_SP_M_10B_64_SBWC_L_FR:
                 layout = static_cast<uint32_t>(FormatLayoutBitMask::SBWC);
                 break;
         default:

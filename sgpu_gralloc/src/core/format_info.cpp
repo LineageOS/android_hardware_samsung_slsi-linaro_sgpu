@@ -891,6 +891,34 @@ static const format_info format_info_table[] = {
                 .format_fourcc = DRM_FORMAT_INVALID /// @todo GFXSW-4819
         },
         {
+                .id = PixelFormat::PRIVATE_YCBCR_420_SP_M_64_SBWC_L_FR,
+                .num_allocs = 1,
+                .num_planes_per_alloc = {2, 0, 0},
+                .num_components= 3,
+                .info = {
+                        {.plane_index =  0, .type = component_y,  .bits = 16},
+                        {.plane_index =  1, .type = component_cb, .bits = 16},
+                        {.plane_index =  1, .type = component_cr, .bits = 16},
+                        {.plane_index = INVALID_VALUE, .type = component_NA, .bits = 0}
+                },
+                .format_sampling = SamplingType::YUV_420,
+                .format_fourcc = DRM_FORMAT_INVALID /// @todo GFXSW-4819
+        },
+        {
+                .id = PixelFormat::PRIVATE_YCBCR_420_SP_M_10B_64_SBWC_L_FR,
+                .num_allocs = 1,
+                .num_planes_per_alloc = {2, 0, 0},
+                .num_components= 3,
+                .info = {
+                        {.plane_index =  0, .type = component_y,  .bits = 16},
+                        {.plane_index =  1, .type = component_cb, .bits = 16},
+                        {.plane_index =  1, .type = component_cr, .bits = 16},
+                        {.plane_index = INVALID_VALUE, .type = component_NA, .bits = 0}
+                },
+                .format_sampling = SamplingType::YUV_420,
+                .format_fourcc = DRM_FORMAT_INVALID /// @todo GFXSW-4819
+        },
+        {
                 // Fourcc: Y8 0x20203859
                 .id = PixelFormat::Y8,
                 .num_allocs = 1,
@@ -1164,6 +1192,9 @@ bool is_sbwc_format(PixelFormat format)
                 case PixelFormat::PRIVATE_YCBCR_420_SP_M_10B_64_SBWC_L:
                 case PixelFormat::PRIVATE_YCBCR_420_SPN_10B_32_SBWC_L:
                 case PixelFormat::PRIVATE_YCBCR_420_SPN_10B_64_SBWC_L:
+                /* SBWC Lossy formats over v2.8 */
+                case PixelFormat::PRIVATE_YCBCR_420_SP_M_64_SBWC_L_FR:
+                case PixelFormat::PRIVATE_YCBCR_420_SP_M_10B_64_SBWC_L_FR:
                         result = true;
                         break;
                 default:
