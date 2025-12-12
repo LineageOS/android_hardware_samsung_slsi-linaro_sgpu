@@ -106,6 +106,10 @@ enum class PixelFormat : int32_t {
         PRIVATE_YCBCR_420_SP_M_10B_64_SBWC_L = 0x185,
         PRIVATE_YCBCR_420_SPN_10B_32_SBWC_L  = 0x186,
         PRIVATE_YCBCR_420_SPN_10B_64_SBWC_L  = 0x187,
+
+        /* SBWC Lossy formats over v2.8 */
+        PRIVATE_YCBCR_420_SP_M_64_SBWC_L_FR  = 0x188,
+        PRIVATE_YCBCR_420_SP_M_10B_64_SBWC_L_FR  = 0x189,
 };
 
 enum class BufferUsage : uint64_t {
