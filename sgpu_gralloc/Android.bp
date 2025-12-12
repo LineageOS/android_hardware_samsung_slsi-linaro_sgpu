@@ -55,7 +55,7 @@ cc_defaults {
 }
 
 cc_binary {
-    name: "android.hardware.graphics.allocator-service-sgr",
+    name: "android.hardware.graphics.allocator-aidl-service-sgr",
     defaults: [
         "sgr_defaults",
     ],
@@ -66,7 +66,7 @@ cc_binary {
         "src/gralloc4/service.cpp",
     ],
     init_rc: [
-        "src/gralloc4/android.hardware.graphics.allocator-service-sgr.rc",
+        "src/gralloc4/android.hardware.graphics.allocator-aidl-service-sgr.rc",
     ],
     shared_libs: [
         "android.hardware.graphics.allocator-V2-ndk",

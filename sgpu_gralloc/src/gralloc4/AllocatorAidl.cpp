@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-#define LOG_TAG "android.hardware.graphics.allocator-service-sgr"
+#define LOG_TAG "android.hardware.graphics.allocator-aidl-service-sgr"
 
 #include "AllocatorAidl.h"
 #include <aidlcommonsupport/NativeHandle.h>

@@ -1,4 +1,4 @@
-service vendor.graphics.allocator-default /vendor/bin/hw/android.hardware.graphics.allocator-service-sgr
+service vendor.graphics.allocator-default /vendor/bin/hw/android.hardware.graphics.allocator-aidl-service-sgr
     class hal animation
     user system
     group graphics drmrpc
