@@ -172,7 +172,9 @@ inline std::string get_pixel_format_string(PixelFormat format)
                 case PixelFormat::PRIVATE_YCBCR_420_SP_M_10B_64_SBWC_L: return std::string("PRIVATE_YCBCR_420_SP_M_10B_64_SBWC_L");
                 case PixelFormat::PRIVATE_YCBCR_420_SPN_10B_32_SBWC_L:  return std::string("PRIVATE_YCBCR_420_SPN_10B_32_SBWC_L");
                 case PixelFormat::PRIVATE_YCBCR_420_SPN_10B_64_SBWC_L:  return std::string("PRIVATE_YCBCR_420_SPN_10B_64_SBWC_L");
-                default:                                                return std::string("UNKNOWN");
+                case PixelFormat::PRIVATE_YCBCR_420_SP_M_64_SBWC_L_FR:  return std::string("PRIVATE_YCBCR_420_SP_M_64_SBWC_L_FR");
+                case PixelFormat::PRIVATE_YCBCR_420_SP_M_10B_64_SBWC_L_FR:  return std::string("PRIVATE_YCBCR_420_SP_M_10B_64_SBWC_L_FR");
+                default:                                                     return std::string("UNKNOWN");
         }
 }
 
