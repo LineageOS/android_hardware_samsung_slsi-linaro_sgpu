@@ -92,6 +92,9 @@ uint32_t SgpuFormatManager::get_layout(PixelFormat format, const BufferDescripto
                 { PixelFormat::PRIVATE_YCBCR_420_SP_M_10B_64_SBWC_L, read_usage,     sbwc_layout },
                 { PixelFormat::PRIVATE_YCBCR_420_SPN_10B_32_SBWC_L,  read_usage,     sbwc_layout },
                 { PixelFormat::PRIVATE_YCBCR_420_SPN_10B_32_SBWC_L,  read_usage,     sbwc_layout },
+                /* SBWC Lossy formats over v2.8 */
+                { PixelFormat::PRIVATE_YCBCR_420_SP_M_64_SBWC_L_FR,  read_usage,     sbwc_layout },
+                { PixelFormat::PRIVATE_YCBCR_420_SP_M_10B_64_SBWC_L_FR,  read_usage, sbwc_layout },
         };
 
         SGR_ASSERT(is_any_bitmask_set_64(descriptor.usage, usage_mask));
