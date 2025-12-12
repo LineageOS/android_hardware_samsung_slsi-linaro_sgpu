@@ -78,6 +78,8 @@ static const hwc_format_layout_info hwc_format_layout_table[] = {
         { PixelFormat::PRIVATE_YCBCR_420_SP_M_10B_64_SBWC_L, layout_sbwc },
         { PixelFormat::PRIVATE_YCBCR_420_SPN_10B_32_SBWC_L,  layout_sbwc },
         { PixelFormat::PRIVATE_YCBCR_420_SPN_10B_64_SBWC_L,  layout_sbwc },
+        { PixelFormat::PRIVATE_YCBCR_420_SP_M_64_SBWC_L_FR,  layout_sbwc },
+        { PixelFormat::PRIVATE_YCBCR_420_SP_M_10B_64_SBWC_L_FR,  layout_sbwc },
 };
 
 static inline int32_t get_hwc_format_index(PixelFormat format)

@@ -47,6 +47,8 @@ static inline AlignFactor get_align_factor(PixelFormat format)
         case PixelFormat::PRIVATE_YCBCR_420_SPN_64_SBWC_L:
         case PixelFormat::PRIVATE_YCBCR_420_SP_M_10B_64_SBWC_L:
         case PixelFormat::PRIVATE_YCBCR_420_SPN_10B_64_SBWC_L:
+        case PixelFormat::PRIVATE_YCBCR_420_SP_M_64_SBWC_L_FR:
+        case PixelFormat::PRIVATE_YCBCR_420_SP_M_10B_64_SBWC_L_FR:
                 ret = AlignFactor::A_64;
                 break;
         case PixelFormat::PRIVATE_YCBCR_420_SPN_256_SBWC:
@@ -281,6 +283,8 @@ static inline ScaleFactor get_scale_factor(PixelFormat format)
         case PixelFormat::PRIVATE_YCBCR_420_SP_M_10B_64_SBWC_L:
         case PixelFormat::PRIVATE_YCBCR_420_SPN_10B_32_SBWC_L:
         case PixelFormat::PRIVATE_YCBCR_420_SPN_10B_64_SBWC_L:
+        case PixelFormat::PRIVATE_YCBCR_420_SP_M_64_SBWC_L_FR:
+        case PixelFormat::PRIVATE_YCBCR_420_SP_M_10B_64_SBWC_L_FR:
                 ret = ScaleFactor::S_NONE;
                 break;
         case PixelFormat::PRIVATE_YCBCR_420_SP_M_SBWC_L50:
