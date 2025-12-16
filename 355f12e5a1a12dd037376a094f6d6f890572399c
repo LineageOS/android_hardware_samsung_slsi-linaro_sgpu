@@ -87,6 +87,24 @@
       "parentUuid": "e890eb0e_c42b6924",
       "revId": "355f12e5a1a12dd037376a094f6d6f890572399c",
       "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a4e43779_4f70be0f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 24387
+      },
+      "writtenOn": "2025-12-16T21:13:43Z",
+      "side": 1,
+      "message": "Sure, I can amend the previous patchset and drop this commit and do the same for the composer as well.",
+      "parentUuid": "dd7befbd_2c1e0fc0",
+      "revId": "355f12e5a1a12dd037376a094f6d6f890572399c",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71"
     }
   ]
 }
