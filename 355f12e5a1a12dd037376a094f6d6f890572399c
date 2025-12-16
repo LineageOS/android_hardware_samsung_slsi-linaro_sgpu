@@ -16,6 +16,24 @@
       "message": "What\u0027s the point?",
       "revId": "355f12e5a1a12dd037376a094f6d6f890572399c",
       "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e890eb0e_c42b6924",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 24387
+      },
+      "writtenOn": "2025-12-16T08:28:48Z",
+      "side": 1,
+      "message": "Because in my opinion is better to stick with the name that samsung uses on stock rom (and as a consequence on newer SLSIs BSPs) since we know the name.\n\nAdditionally this prevents a potential issue in people doing bring-ups and pulling in both the blob and the OSS variant of gralloc service (because the two will conflict). While is it true that is their problem, we can at least mitigate it.",
+      "parentUuid": "dd3de6ba_24d81118",
+      "revId": "355f12e5a1a12dd037376a094f6d6f890572399c",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71"
     }
   ]
 }
