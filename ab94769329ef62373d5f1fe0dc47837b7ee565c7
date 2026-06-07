@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "17449018_dd7e9c3e",
+        "filename": "sgpu_gralloc/src/core/allocator.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 467,
+      "author": {
+        "id": 24387
+      },
+      "writtenOn": "2026-06-07T22:46:29Z",
+      "side": 1,
+      "message": "these should be #define or enum",
+      "revId": "ab94769329ef62373d5f1fe0dc47837b7ee565c7",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71"
+    }
+  ]
+}
