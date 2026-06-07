@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d6f382c9_d8c815c7",
+        "filename": "sgpu_gralloc/src/core/dcc_layout_manager.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 192,
+      "author": {
+        "id": 24387
+      },
+      "writtenOn": "2026-06-07T22:46:09Z",
+      "side": 0,
+      "message": "I need to restore original alignment",
+      "range": {
+        "startLine": 192,
+        "startChar": 0,
+        "endLine": 192,
+        "endChar": 80
+      },
+      "revId": "4f80638c46609cc2053d922b17d04947b28a41c5",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71"
+    }
+  ]
+}
