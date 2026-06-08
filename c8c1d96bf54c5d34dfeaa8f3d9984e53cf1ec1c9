@@ -18,6 +18,24 @@
       "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "120c352e_58e87011",
+        "filename": "sgpu_gralloc/src/core/allocator.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 469,
+      "author": {
+        "id": 24387
+      },
+      "writtenOn": "2026-06-08T12:37:18Z",
+      "side": 1,
+      "message": "It is doable, although it is not what the stock blob is doing and what it is done in the other source files, so it will end up being a little bit inconsistent... But for performances reasons it is probably it is better to store the prop in the constructor as you are suggesting instead of following blindly what the blob is doing.",
+      "parentUuid": "f25e8c8c_8bb74be8",
+      "revId": "c8c1d96bf54c5d34dfeaa8f3d9984e53cf1ec1c9",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "d3559fc8_a309b112",
