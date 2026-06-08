@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d3559fc8_a309b112",
+        "filename": "sgpu_gralloc/src/interface/metadata_gpu.h",
+        "patchSetId": 5
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 24387
+      },
+      "writtenOn": "2026-06-08T07:45:09Z",
+      "side": 1,
+      "message": "For reference: \n\nhttps://github.com/GPUOpen-Drivers/pal/blob/c5e800072a32f68b6ccc4422936d96167c6e0728/src/core/os/amdgpu/include/2d/amdgpu_shared.h#L143",
+      "revId": "c8c1d96bf54c5d34dfeaa8f3d9984e53cf1ec1c9",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71"
+    }
+  ]
+}
