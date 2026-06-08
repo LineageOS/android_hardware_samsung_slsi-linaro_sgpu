@@ -36,6 +36,24 @@
       "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "18b31329_9306778c",
+        "filename": "sgpu_gralloc/src/core/allocator.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 469,
+      "author": {
+        "id": 24387
+      },
+      "writtenOn": "2026-06-08T13:07:21Z",
+      "side": 1,
+      "message": "Actually the same thing is done in allocate_fds with CONFIG_MEMSET_BUFFER_PATTERN so I am not sure how much we gain by dropping a prop read just in this occurence.\n\nSince these are just debug props (I mean the one in config.h), which will never be changed at runtime anyways, maybe a better approach could be to transform these debug props in true compile time CFLAGS on a separate change.\n\nWhat do you think ?",
+      "parentUuid": "120c352e_58e87011",
+      "revId": "c8c1d96bf54c5d34dfeaa8f3d9984e53cf1ec1c9",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "d3559fc8_a309b112",
