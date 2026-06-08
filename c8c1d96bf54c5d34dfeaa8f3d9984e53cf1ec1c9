@@ -56,6 +56,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "b57852bf_a9b6118b",
+        "filename": "sgpu_gralloc/src/core/allocator.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 469,
+      "author": {
+        "id": 11883
+      },
+      "writtenOn": "2026-06-08T13:24:55Z",
+      "side": 1,
+      "message": "Ideally the alloc path should be free of IO, so if converting those is _sane_ I\u0027ll be happy either.\n\nAlso fine if you don\u0027t touch those at all and simply match what you see in blobs",
+      "parentUuid": "18b31329_9306778c",
+      "revId": "c8c1d96bf54c5d34dfeaa8f3d9984e53cf1ec1c9",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "d3559fc8_a309b112",
         "filename": "sgpu_gralloc/src/interface/metadata_gpu.h",
         "patchSetId": 5
