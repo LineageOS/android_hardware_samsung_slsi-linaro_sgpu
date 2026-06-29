@@ -72,17 +72,14 @@ namespace gralloc {
 /// Used to enable/disable setting the pattern that will be memset
 /// to all buffers on allocation
 ///
-/// The accepted values are
-/// true, to enable memset'ing of pattern
-/// false, to disable memset'ing of pattern
+/// Uncomment to enable memset'ing of pattern
+/// Comment to disable memset'ing of pattern
 ///
-/// The default value is false
+/// The default is commented
 ///
 /// Note: The max possible value for pattern is: 0xFF
-#define CONFIG_MEMSET_BUFFER_PATTERN        "debug.sgr.memset_buffer_pattern"
-
-#define CONFIG_MEMSET_BUFFER_PATTERN_DEFAULT    false
-#define CONFIG_MEMSET_BUFFER_PATTERN_VALUE      0x99
+// #define CONFIG_MEMSET_BUFFER_PATTERN
+// #define CONFIG_MEMSET_BUFFER_PATTERN_VALUE      0x99
 
 ///
 /// Used to get display panel size from HWC
