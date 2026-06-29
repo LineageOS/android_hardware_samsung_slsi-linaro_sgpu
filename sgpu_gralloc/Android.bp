@@ -14,22 +14,6 @@
  * limitations under the License.
  */
 
-soong_config_module_type {
-    name: "sgr_cc_defaults",
-    module_type: "cc_defaults",
-    config_namespace: "sgr",
-    variables: [
-        "enable_swizzle_4k_mode",
-    ],
-    properties: [
-        "cflags",
-    ],
-}
-
-soong_config_bool_variable {
-    name: "enable_swizzle_4k_mode",
-}
-
 sgr_common_core_srcs = [
     "src/core/camera_format_manager.cpp",
     "src/core/cpu_format_manager.cpp",
@@ -59,7 +43,7 @@ sgr_common_shared_libs = [
     "libutils",
 ]
 
-sgr_cc_defaults {
+cc_defaults {
     name: "sgr_defaults",
     include_dirs: [
         "hardware/samsung_slsi-linaro/exynos/include",
@@ -68,11 +52,11 @@ sgr_cc_defaults {
     relative_install_path: "hw",
     srcs: sgr_common_core_srcs,
     shared_libs: sgr_common_shared_libs,
-    soong_config_variables: {
-        enable_swizzle_4k_mode: {
-            cflags: ["-DENABLE_SWIZZLE_4K_MODE"],
-        },
-    },
+
+    cflags: select(soong_config_variable("sgr", "enable_swizzle_4k_mode"), {
+        true: ["-DENABLE_SWIZZLE_4K_MODE"],
+        default: [],
+    })
 }
 
 cc_binary {
