@@ -466,11 +466,15 @@ Error Allocator::allocate(const BufferDescriptor &descriptor, uint32_t count,
         // agree on the tile geometry
         struct sgr_metadata_gpu *gpu_meta = (struct sgr_metadata_gpu *) ((uintptr_t)metadata_base + SGR_METADATA_OFFSET_GPU);
 
-        if(android::base::GetBoolProperty(CONFIG_SAJC_4K_SWIZZLE, CONFIG_SAJC_4K_SWIZZLE_DEFAULT) == true) {
-                gpu_meta->dcc_sw_mode = SAJC_SWIZZLE_4KB_R_X;
-        } else {
-                gpu_meta->dcc_sw_mode = SAJC_SWIZZLE_64KB_R_X;
-        }
+#ifdef ENABLE_SWIZZLE_4K_MODE
+        gpu_meta->dcc_sw_mode = SAJC_SWIZZLE_4KB_R_X;
+#else
+        // Normally we should write SAJC_SWIZZLE_64KB_R_X into dcc_sw_mode, however this
+        // breaks SoCs older than 9945 (9925) which are not expecting this value.
+        // Not setting it does not break 9945 when not using 4k swizzle path but
+        // the code is left here for clarity
+        // gpu_meta->dcc_sw_mode = SAJC_SWIZZLE_64KB_R_X;
+#endif
 
         if (is_any_bitmask_set_64(descriptor.usage, static_cast<uint64_t>(BufferUsage::PRIVATE_GDC_MODE))) {
                 alloc_extent.width = gdc_width;

@@ -65,12 +65,11 @@ static inline uint32_t get_data_size_64kb_r_x_1xaa(PixelFormat format,
 
         sgr_extent_2d data_block_extent = {};
 
-        if(android::base::GetBoolProperty(CONFIG_SAJC_4K_SWIZZLE,
-                                          CONFIG_SAJC_4K_SWIZZLE_DEFAULT) == true) {
-                get_dcc_data_block_extent_4kb_r_x_1xaa(format, &data_block_extent);
-        } else {
-                get_dcc_data_block_extent_64kb_r_x_1xaa(format, &data_block_extent);
-        }
+#ifdef ENABLE_SWIZZLE_4K_MODE
+        get_dcc_data_block_extent_4kb_r_x_1xaa(format, &data_block_extent);
+#else
+        get_dcc_data_block_extent_64kb_r_x_1xaa(format, &data_block_extent);
+#endif
 
         SGR_ASSERT((alloc_extent.width % data_block_extent.width) == 0);
         SGR_ASSERT((alloc_extent.height % data_block_extent.height) == 0);
@@ -80,10 +79,9 @@ static inline uint32_t get_data_size_64kb_r_x_1xaa(PixelFormat format,
         alloc_extent_in_block.height = alloc_extent.height / data_block_extent.height;
 
         uint32_t data_block_size = size_64k;
-        if(android::base::GetBoolProperty(CONFIG_SAJC_4K_SWIZZLE,
-                                          CONFIG_SAJC_4K_SWIZZLE_DEFAULT) == true) {
+#ifdef ENABLE_SWIZZLE_4K_MODE
                 data_block_size = size_4k;
-        }
+#endif
         sgr_plane_layout *plane = &plane_layouts[0];
 
         const component_info *comp_info = get_component_info(format);
@@ -159,12 +157,11 @@ static inline uint32_t get_key_size_64kb_r_x_1xaa(PixelFormat format,
 ///
 void DccLayoutManager::get_block_extent(PixelFormat format, sgr_extent_2d *extent) const
 {
-        if(android::base::GetBoolProperty(CONFIG_SAJC_4K_SWIZZLE,
-                                          CONFIG_SAJC_4K_SWIZZLE_DEFAULT) == true) {
-                get_dcc_data_block_extent_4kb_r_x_1xaa(format, extent);
-        } else {
-                get_dcc_data_block_extent_64kb_r_x_1xaa(format, extent);
-        }
+#ifdef ENABLE_SWIZZLE_4K_MODE
+        get_dcc_data_block_extent_4kb_r_x_1xaa(format, extent);
+#else
+        get_dcc_data_block_extent_64kb_r_x_1xaa(format, extent);
+#endif
 }
 
 ///
@@ -218,10 +215,9 @@ uint32_t DccLayoutManager::get_alloc_info(PixelFormat format, uint32_t layer_cou
 
                 alloc->alignment   = size_64k;
 
-                if(android::base::GetBoolProperty(CONFIG_SAJC_4K_SWIZZLE,
-                                                  CONFIG_SAJC_4K_SWIZZLE_DEFAULT) == true) {
+#ifdef ENABLE_SWIZZLE_4K_MODE
                         alloc->alignment = size_4k;
-                }
+#endif
 
                 alloc->data.offset = 0;
                 alloc->data.size   = layer_count * get_data_size_64kb_r_x_1xaa(format,
