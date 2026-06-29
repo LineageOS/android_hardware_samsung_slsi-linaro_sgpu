@@ -115,8 +115,7 @@ bool Allocator::allocate_fds(uint32_t num_allocs, const sgr_alloc *allocs, uint6
                 }
                 fds[alloc_index] = fd;
 
-                if(android::base::GetBoolProperty(CONFIG_MEMSET_BUFFER_PATTERN,
-                                                  CONFIG_MEMSET_BUFFER_PATTERN_DEFAULT) == true) {
+#ifdef CONFIG_MEMSET_BUFFER_PATTERN
                         const bool protected_content = is_protected_content(usage);
 
                         if (protected_content == false) {
@@ -151,6 +150,7 @@ bool Allocator::allocate_fds(uint32_t num_allocs, const sgr_alloc *allocs, uint6
                                 SGR_UNUSED(ret);
                         }
                 }
+#endif
         }
 
         if (error == Error::NONE) {
