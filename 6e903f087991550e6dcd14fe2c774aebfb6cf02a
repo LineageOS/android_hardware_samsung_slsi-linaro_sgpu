@@ -51,6 +51,23 @@
       "parentUuid": "7ac3bd55_05c19242",
       "revId": "6e903f087991550e6dcd14fe2c774aebfb6cf02a",
       "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d1b5a675_f48cdbd3",
+        "filename": "sgpu_gralloc/src/gralloc4/AllocatorAidl.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 24387
+      },
+      "writtenOn": "2026-06-30T08:49:00Z",
+      "side": 1,
+      "message": "Can we put this into the loop at line 55 ?\n\n    for (size_t i \u003d 0; i \u003c handles.size(); i++) {\n        _aidl_return-\u003ebuffers[i] \u003d dupToAidl(handles[i]);\n        mAllocator.free_handle(handles[i]);\n    }",
+      "revId": "6e903f087991550e6dcd14fe2c774aebfb6cf02a",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71"
     }
   ]
 }
