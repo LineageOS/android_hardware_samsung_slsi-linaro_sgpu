@@ -16,6 +16,23 @@
       "message": "Should be a part of 489272.",
       "revId": "6e903f087991550e6dcd14fe2c774aebfb6cf02a",
       "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7ac3bd55_05c19242",
+        "filename": "sgpu_gralloc/src/gralloc4/AllocatorAidl.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 34207
+      },
+      "writtenOn": "2026-06-30T08:24:42Z",
+      "side": 1,
+      "message": "Is this necessary? We\u0027re already in that namespace.",
+      "revId": "6e903f087991550e6dcd14fe2c774aebfb6cf02a",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71"
     }
   ]
 }
