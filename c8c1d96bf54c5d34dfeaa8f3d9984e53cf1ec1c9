@@ -74,6 +74,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "fd98746d_61b540ac",
+        "filename": "sgpu_gralloc/src/core/allocator.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 469,
+      "author": {
+        "id": 24387
+      },
+      "writtenOn": "2026-06-30T08:46:52Z",
+      "side": 1,
+      "message": "Following patch sets convert the props into compile time cflags to avoid io operation in allocate path",
+      "parentUuid": "b57852bf_a9b6118b",
+      "revId": "c8c1d96bf54c5d34dfeaa8f3d9984e53cf1ec1c9",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "d3559fc8_a309b112",
         "filename": "sgpu_gralloc/src/interface/metadata_gpu.h",
         "patchSetId": 5
