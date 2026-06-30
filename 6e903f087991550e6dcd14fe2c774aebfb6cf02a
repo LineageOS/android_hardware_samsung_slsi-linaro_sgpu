@@ -18,6 +18,24 @@
       "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "13e2c01f_6adcb6bd",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 24387
+      },
+      "writtenOn": "2026-06-30T13:33:59Z",
+      "side": 1,
+      "message": "Yes but before squashing i\u0027d prefer to implement isSupported (copy from mapper) and allocate2. For the other function we need the hdidl-\u003estable-c mapper but that is too much of an effort...",
+      "parentUuid": "bbf71a0d_786efe90",
+      "revId": "6e903f087991550e6dcd14fe2c774aebfb6cf02a",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7ac3bd55_05c19242",
