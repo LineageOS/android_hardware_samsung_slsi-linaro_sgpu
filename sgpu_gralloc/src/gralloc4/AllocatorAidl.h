@@ -6,6 +6,7 @@
 
 #include <aidl/android/hardware/graphics/allocator/BnAllocator.h>
 #include "core/allocator.h"
+#include "core/mapper.h"
 
 using aidl::android::hardware::common::NativeHandle;
 
@@ -23,6 +24,7 @@ public:
     ndk::ScopedAStatus getIMapperLibrarySuffix(std::string *_aidl_return);
 private:
     ::android::samsung::gralloc::Allocator mAllocator;
+    ::android::samsung::gralloc::Mapper m_mapper;
 };
 
 }

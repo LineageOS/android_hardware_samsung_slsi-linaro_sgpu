@@ -18,6 +18,22 @@ using aidl::android::hardware::common::NativeHandle;
 
 namespace aidl::android::hardware::graphics::allocator {
 
+::android::samsung::gralloc::BufferDescriptorInfo toInternalDescriptorInfo(const BufferDescriptorInfo& descriptor) {
+    ::android::samsung::gralloc::BufferDescriptorInfo descriptor_info;
+
+    const char *str = (const char*) descriptor.name.data();
+    descriptor_info.name = std::string(str);
+
+    descriptor_info.width = static_cast<uint32_t>(descriptor.width);
+    descriptor_info.height = static_cast<uint32_t>(descriptor.height);
+    descriptor_info.layerCount = static_cast<uint32_t>(descriptor.layerCount);
+    descriptor_info.format = static_cast<::android::samsung::gralloc::PixelFormat>(static_cast<int32_t>(descriptor.format));
+    descriptor_info.usage = static_cast<uint64_t>(descriptor.usage);
+    descriptor_info.reservedSize = static_cast<uint64_t>(descriptor.reservedSize);
+
+    return descriptor_info;
+}
+
 ndk::ScopedAStatus Allocator::allocate(const std::vector<uint8_t>& in_descriptor, int32_t count, AllocationResult *_aidl_return) {
     uint32_t stride;
     std::vector<native_handle_t*> handles(count);
@@ -64,9 +80,15 @@ ndk::ScopedAStatus Allocator::allocate(const std::vector<uint8_t>& in_descriptor
 ndk::ScopedAStatus Allocator::allocate2(const BufferDescriptorInfo& descriptor, int32_t count, AllocationResult *_aidl_return){
     return ndk::ScopedAStatus::fromExceptionCode(EX_UNSUPPORTED_OPERATION);
 }
+
 ndk::ScopedAStatus Allocator::isSupported(const BufferDescriptorInfo& descriptor, bool *_aidl_return){
-    return ndk::ScopedAStatus::fromExceptionCode(EX_UNSUPPORTED_OPERATION);
+
+    bool supported = m_mapper.is_supported(toInternalDescriptorInfo(descriptor));
+    *_aidl_return = supported;
+
+    return ndk::ScopedAStatus::ok();
 }
+
 ndk::ScopedAStatus Allocator::getIMapperLibrarySuffix(std::string *_aidl_return){
     return ndk::ScopedAStatus::fromExceptionCode(EX_UNSUPPORTED_OPERATION);
 }
