@@ -78,7 +78,54 @@ ndk::ScopedAStatus Allocator::allocate(const std::vector<uint8_t>& in_descriptor
 }
 
 ndk::ScopedAStatus Allocator::allocate2(const BufferDescriptorInfo& descriptor, int32_t count, AllocationResult *_aidl_return){
-    return ndk::ScopedAStatus::fromExceptionCode(EX_UNSUPPORTED_OPERATION);
+
+    uint32_t stride;
+    std::vector<native_handle_t*> handles(count);
+    Error error;
+
+    BufferDescriptor buffer_descriptor;
+
+    error = m_mapper.create_descriptor(toInternalDescriptorInfo(descriptor), &buffer_descriptor);
+
+    if (error == Error::NONE) {
+        error = mAllocator.allocate(buffer_descriptor, count, handles, &stride);
+
+        switch (error) {
+            case Error::NONE:
+                break;
+    
+            case Error::BAD_DESCRIPTOR:
+                return ndk::ScopedAStatus::fromServiceSpecificError(
+                    static_cast<int32_t>(AllocationError::BAD_DESCRIPTOR));
+    
+            case Error::NO_RESOURCES:
+                return ndk::ScopedAStatus::fromServiceSpecificError(
+                    static_cast<int32_t>(AllocationError::NO_RESOURCES));
+    
+            case Error::UNSUPPORTED:
+                return ndk::ScopedAStatus::fromServiceSpecificError(
+                    static_cast<int32_t>(AllocationError::UNSUPPORTED));
+    
+            default:
+                return ndk::ScopedAStatus::fromStatus(STATUS_UNKNOWN_ERROR);
+        }
+    
+        _aidl_return->buffers.resize(handles.size());
+    
+        _aidl_return->stride = static_cast<int>(stride);
+        for (int i = 0; i < handles.size() ; i++) {
+            _aidl_return->buffers[i] = dupToAidl(handles[i]);
+        }
+    
+        for (auto handle : handles) {
+            mAllocator.free_handle(handle);
+        }
+    } else {
+        return ndk::ScopedAStatus::fromServiceSpecificError(
+            static_cast<int32_t>(AllocationError::BAD_DESCRIPTOR));
+    }
+
+    return ndk::ScopedAStatus::ok();
 }
 
 ndk::ScopedAStatus Allocator::isSupported(const BufferDescriptorInfo& descriptor, bool *_aidl_return){
