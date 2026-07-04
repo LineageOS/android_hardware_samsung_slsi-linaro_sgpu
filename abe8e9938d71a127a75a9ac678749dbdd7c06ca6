@@ -52,6 +52,24 @@
       "parentUuid": "fe939981_8217d775",
       "revId": "abe8e9938d71a127a75a9ac678749dbdd7c06ca6",
       "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d08d43ea_78aafc01",
+        "filename": "sgpu_gralloc/Android.bp",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 24387
+      },
+      "writtenOn": "2026-07-04T23:00:03Z",
+      "side": 0,
+      "message": "It ended up in 492512 by mistake but i moved it back here. patch set 8.",
+      "parentUuid": "21286143_c199209b",
+      "revId": "abe8e9938d71a127a75a9ac678749dbdd7c06ca6",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71"
     }
   ]
 }
