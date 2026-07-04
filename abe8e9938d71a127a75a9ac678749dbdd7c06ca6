@@ -16,6 +16,24 @@
       "message": "Migrate to select()",
       "revId": "abe8e9938d71a127a75a9ac678749dbdd7c06ca6",
       "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fe939981_8217d775",
+        "filename": "sgpu_gralloc/Android.bp",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 24387
+      },
+      "writtenOn": "2026-07-04T22:51:38Z",
+      "side": 0,
+      "message": "done ...",
+      "parentUuid": "2caadfd4_2f256408",
+      "revId": "abe8e9938d71a127a75a9ac678749dbdd7c06ca6",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71"
     }
   ]
 }
