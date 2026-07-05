@@ -90,6 +90,24 @@
       "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "5b8e7e6d_b24857ae",
+        "filename": "sgpu_gralloc/src/core/allocator.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 469,
+      "author": {
+        "id": 34207
+      },
+      "writtenOn": "2026-07-05T20:13:05Z",
+      "side": 1,
+      "message": "Isn\u0027t the whole purpose of props low overhead? Are we sure it\u0027s read from disk to begin with? Actually how long does it take to read one?\n\nI\u0027d prefer using props, as selects are ugly and not the recommended way to configure things.",
+      "parentUuid": "fd98746d_61b540ac",
+      "revId": "c8c1d96bf54c5d34dfeaa8f3d9984e53cf1ec1c9",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "d3559fc8_a309b112",
