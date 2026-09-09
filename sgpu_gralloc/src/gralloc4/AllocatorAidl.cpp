@@ -85,7 +85,7 @@ ndk::ScopedAStatus Allocator::allocate2(const BufferDescriptorInfo& descriptor, 
 
     BufferDescriptor buffer_descriptor;
 
-    error = m_mapper.create_descriptor(toInternalDescriptorInfo(descriptor), &buffer_descriptor);
+    error = mAllocator.create_descriptor(toInternalDescriptorInfo(descriptor), &buffer_descriptor);
 
     if (error == Error::NONE) {
         error = mAllocator.allocate(buffer_descriptor, count, handles, &stride);
@@ -130,7 +130,7 @@ ndk::ScopedAStatus Allocator::allocate2(const BufferDescriptorInfo& descriptor, 
 
 ndk::ScopedAStatus Allocator::isSupported(const BufferDescriptorInfo& descriptor, bool *_aidl_return){
 
-    bool supported = m_mapper.is_supported(toInternalDescriptorInfo(descriptor));
+    bool supported = mAllocator.is_supported(toInternalDescriptorInfo(descriptor));
     *_aidl_return = supported;
 
     return ndk::ScopedAStatus::ok();
