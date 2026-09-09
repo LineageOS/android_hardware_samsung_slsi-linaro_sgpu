@@ -102,3 +102,26 @@ cc_library_shared {
         "libnativebase_headers",
     ],
 }
+
+cc_library_shared {
+    name: "mapper.sgr",
+    defaults: [
+        "sgr_defaults",
+    ],
+    vintf_fragments: ["src/gralloc5/mapper.sgr.xml"],
+    vendor: true,
+    srcs: [
+        "src/core/mapper.cpp",
+        "src/gralloc5/MapperStableC.cpp",
+        "src/interface/g_private_handle_interface.cpp",
+    ],
+    export_include_dirs: ["."],
+    shared_libs : [
+        "android.hardware.graphics.common-V7-ndk",
+        "libsync",
+    ],
+    header_libs: [
+        "libimapper_providerutils",
+        "libimapper_stablec",
+    ],
+}
