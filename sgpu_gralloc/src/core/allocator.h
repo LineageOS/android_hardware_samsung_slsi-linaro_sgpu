@@ -33,6 +33,8 @@ public:
         Error       allocate(const BufferDescriptor &descriptor, uint32_t count,
                              std::vector<native_handle_t*> &handles, uint32_t *stride);
         void free_handle(native_handle_t *handle);
+        Error create_descriptor(const BufferDescriptorInfo &descriptor_info, BufferDescriptor *descriptor);
+        bool is_supported(const BufferDescriptorInfo &descriptor_info);
 private:
         bool allocate_fds(uint32_t num_allocs, const sgr_alloc *allocs, uint64_t usage,
                           uint64_t reserved_region_size, int *fds) const;
