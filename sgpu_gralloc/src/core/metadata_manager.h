@@ -55,6 +55,7 @@ public:
         Error get_cta861_3(const native_handle_t *handle,
                            std::optional<aidl::android::hardware::graphics::common::Cta861_3> *out) const;
         Error get_smpte2094_40(const native_handle_t *handle, std::optional<std::vector<uint8_t>> *out) const;
+        Error get_stride(const native_handle_t *handle, uint32_t *out) const;
 
         Error set_pixel_format_fourcc(native_handle_t *handle, uint32_t in) const;
         Error set_pixel_format_modifier(native_handle_t *handle, uint64_t in) const;
