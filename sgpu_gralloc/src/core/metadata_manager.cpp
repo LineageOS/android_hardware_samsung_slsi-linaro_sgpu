@@ -493,6 +493,21 @@ Error MetadataManager::get_smpte2094_40(const native_handle_t *handle, std::opti
         return Error::NONE;
 }
 
+Error MetadataManager::get_stride(const native_handle_t *handle, uint32_t* out) const
+{
+    const sgr_metadata *metadata = get_and_validate_metadata_const(handle, reinterpret_cast<void *>(out));
+
+    PixelFormat format = static_cast<PixelFormat>(metadata->alloc_format);
+    if (format == PixelFormat::RAW10 || format == PixelFormat::RAW12) {
+        *out = metadata->plane_layouts[0].stride_in_bytes;
+    } else if (metadata->plane_layouts[0].sample_increment_in_bits == 0) {
+        *out = 0;
+    } else {
+        *out = metadata->plane_layouts[0].width_in_samples;
+    }
+
+    return Error::NONE;
+};
 
 static inline sgr_metadata* get_and_validate_metadata(native_handle_t *handle)
 {
