@@ -377,6 +377,107 @@ static void update_handle(private_handle_t *handle, sgr_metadata *metadata)
         }
 }
 
+static inline bool is_multiple_of(uint32_t value, uint32_t power_of_two)
+{
+    SGR_ASSERT((power_of_two != 0) && ((power_of_two & (power_of_two - 1)) == 0));
+    return (is_any_bitmask_set(value, (power_of_two - 1)) == false);
+}
+
+static inline bool is_supported_format(PixelFormat format)
+{
+    bool ret = true;
+    switch (format) {
+        case PixelFormat::RAW_OPAQUE:
+        case PixelFormat::DEPTH_16:
+        case PixelFormat::DEPTH_24:
+        case PixelFormat::DEPTH_24_STENCIL_8:
+        case PixelFormat::DEPTH_32F:
+        case PixelFormat::DEPTH_32F_STENCIL_8:
+        case PixelFormat::STENCIL_8:
+            SGR_LOGD("Unsupported format = %d", static_cast<uint32_t>(format));
+            ret = false;
+            break;
+        default:
+            break;
+    }
+
+    return ret;
+}
+
+static inline bool is_supported_usage(PixelFormat format, uint64_t usage)
+{
+    bool ret = true;
+    if (PixelFormat::IMPLEMENTATION_DEFINED == format) {
+        constexpr uint64_t mask = (static_cast<uint64_t>(BufferUsage::CPU_READ_MASK) |
+                                   static_cast<uint64_t>(BufferUsage::CPU_WRITE_MASK));
+
+        if (is_any_bitmask_set_64(usage, mask)) {
+            SGR_LOGD("IMPLEMENTATION_DEFINED must not have CPU usage, [0x%" PRIx64 "]",
+                     usage);
+            ///@todo GFXSW-4937 - uncomment the following once camera app is fixed
+            //ret = false;
+        }
+    }
+
+    if ((format == PixelFormat::RGB_888) ||
+        (format == PixelFormat::R_8)) {
+        constexpr uint64_t gpu_mask = static_cast<uint64_t>(BufferUsage::GPU_TEXTURE) |
+                                      static_cast<uint64_t>(BufferUsage::GPU_RENDER_TARGET) |
+                                      static_cast<uint64_t>(BufferUsage::GPU_DATA_BUFFER);
+        if (is_any_bitmask_set_64(usage, gpu_mask)) {
+            SGR_LOGD("GPU do not support native format(%u)", static_cast<int32_t>(format));
+            return false;
+        }
+    }
+
+    return ret;
+}
+
+static inline bool is_supported_extent(PixelFormat format, uint32_t width, uint32_t height, uint32_t layer_count)
+{
+    if ((width == 0) || (height == 0) || (layer_count == 0)) {
+        return false;
+    }
+
+    if (PixelFormat::RAW16 == format) {
+        if ((is_multiple_of(width, 2) == false) ||
+            (is_multiple_of(height, 2) == false)) {
+            SGR_LOGE("RAW16 must have 2x width (%u) and 2x height (%u)",
+                     width, height);
+            return false;
+        }
+    } else if (PixelFormat::BLOB == format) {
+        if (height != 1) {
+            SGR_LOGE("BLOB must have height = 1, (%u)", height);
+            return false;
+        }
+    } else if ((PixelFormat::RAW10 == format) || (PixelFormat::RAW12 == format)) {
+        if ((is_multiple_of(width, 4) == false) ||
+            (is_multiple_of(height, 2) == false)) {
+            SGR_LOGE("RAW10 and RAW12 (%x) must have 4x width (%u) and 2x height (%u)",
+                     static_cast<uint32_t>(format), width, height);
+            return false;
+        }
+    } else if ((PixelFormat::Y8 == format) || (PixelFormat::Y16 == format) || (PixelFormat::YV12 == format)) {
+        if ((is_multiple_of(width, 2) == false) ||
+            (is_multiple_of(height, 2) == false)) {
+            SGR_LOGE("YUV (%x) must have 2x width (%u) and 2x height (%u)",
+                     static_cast<uint32_t>(format), width, height);
+            return false;
+        }
+    }
+
+    return true;
+}
+
+static bool validate_buffer_descriptor_info(const BufferDescriptorInfo &info)
+{
+    ///@todo GFXSW-4430 - Validate user input for invalid PixelFormat value
+    return (is_supported_format(info.format) &&
+            is_supported_usage(info.format, info.usage) &&
+            is_supported_extent(info.format, info.width, info.height, info.layerCount));
+}
+
 ///
 /// @brief Allocates buffers with the properties specified by the descriptor
 ///
@@ -566,6 +667,66 @@ void Allocator::free_handle(native_handle_t *handle)
         SGR_ASSERT_MSG(status == 0, "Failed to close handle %p", handle);
         status = native_handle_delete(handle);
         SGR_ASSERT_MSG(status == 0, "Failed to delete handle %p", handle);
+}
+
+///
+/// @brief Creates a buffer descriptor using descriptor attributes
+///
+/// @param[in]  descriptor_info  Specifies the attributes of the descriptor
+/// @param[out] descriptor Newly created opaque buffer descriptor.
+///
+/// @return error
+///
+Error Allocator::create_descriptor(const BufferDescriptorInfo &descriptor_info, BufferDescriptor *descriptor)
+{
+        dump_descriptor_info(descriptor_info);
+
+        if (validate_buffer_descriptor_info(descriptor_info) == false){
+                return Error::BAD_VALUE;
+        }
+
+        // Populate hidl_cb_params->descriptor with descriptor_info,
+        // Modify assignments in /src/gralloc*/converter.h: convert_to_buffer_descriptor_info()
+        // to control what is assigned to BufferDescriptor
+        descriptor->length_name  = descriptor_info.name.size();
+        if (descriptor->length_name >= SGR_MAX_LENGTH_NAME) {
+            descriptor->length_name = SGR_MAX_LENGTH_NAME -1 ;
+        }
+        strncpy(descriptor->name, descriptor_info.name.c_str(), descriptor->length_name);
+        descriptor->width        = descriptor_info.width;
+        descriptor->height       = descriptor_info.height;
+        descriptor->layerCount   = descriptor_info.layerCount;
+        descriptor->format       = descriptor_info.format;
+        descriptor->usage        = descriptor_info.usage;
+        descriptor->reservedSize = descriptor_info.reservedSize;
+
+        constexpr uint64_t video_mask = (static_cast<uint64_t>(BufferUsage::VIDEO_ENCODER) |
+                                         static_cast<uint64_t>(BufferUsage::VIDEO_DECODER));
+        if (is_any_bitmask_set(descriptor_info.usage, video_mask)) {
+                descriptor->usage |= static_cast<uint64_t>(BufferUsage::PRIVATE_VIDEO_PRIVATE_DATA);
+        }
+
+        dump_descriptor(*descriptor);
+
+        return Error::NONE;
+}
+
+///
+/// Test whether the given BufferDescriptorInfo is allocatable.
+///
+/// If this function returns true, it means that a buffer with the given
+/// description can be allocated on this implementation, unless resource
+/// exhaustion occurs. If this function returns false, it means that the
+/// allocation of the given description will never succeed.
+///
+/// @param[in] descriptor_info The description of the buffer
+///
+/// @return bool Whether the description is supported or not
+///
+bool Allocator::is_supported(const BufferDescriptorInfo &descriptor_info)
+{
+    SGR_LOGV("%s", descriptor_info.dump().c_str());
+    return validate_buffer_descriptor_info(descriptor_info);
 }
 
 } // gralloc
