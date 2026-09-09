@@ -67,11 +67,11 @@ cc_binary {
     proprietary: true,
     srcs: [
         "src/core/allocator.cpp",
-        "src/gralloc4/AllocatorAidl.cpp",
-        "src/gralloc4/service.cpp",
+        "src/gralloc5/AllocatorAidl.cpp",
+        "src/gralloc5/service.cpp",
     ],
     init_rc: [
-        "src/gralloc4/android.hardware.graphics.allocator-aidl-service-sgr.rc",
+        "src/gralloc5/android.hardware.graphics.allocator-aidl-service-sgr.rc",
     ],
     shared_libs: [
         "android.hardware.graphics.allocator-V2-ndk",

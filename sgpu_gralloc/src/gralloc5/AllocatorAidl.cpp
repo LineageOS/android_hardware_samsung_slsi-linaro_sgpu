@@ -9,7 +9,6 @@
 #include <aidl/android/hardware/graphics/allocator/AllocationError.h>
 #include "AllocatorAidl.h"
 #include <aidlcommonsupport/NativeHandle.h>
-#include "converter.h"
 #include <android-base/logging.h>
 
 using namespace android::samsung::gralloc;
@@ -137,7 +136,8 @@ ndk::ScopedAStatus Allocator::isSupported(const BufferDescriptorInfo& descriptor
 }
 
 ndk::ScopedAStatus Allocator::getIMapperLibrarySuffix(std::string *_aidl_return){
-    return ndk::ScopedAStatus::fromExceptionCode(EX_UNSUPPORTED_OPERATION);
+    *_aidl_return = "sgr";
+    return ndk::ScopedAStatus::ok();
 }
 
 }
