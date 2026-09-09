@@ -24,7 +24,6 @@ public:
     ndk::ScopedAStatus getIMapperLibrarySuffix(std::string *_aidl_return);
 private:
     ::android::samsung::gralloc::Allocator mAllocator;
-    ::android::samsung::gralloc::Mapper m_mapper;
 };
 
 }

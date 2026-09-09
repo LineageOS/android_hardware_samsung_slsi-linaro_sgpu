@@ -31,7 +31,6 @@ public:
         Mapper& operator=(const Mapper&) = delete;
         Mapper& operator=(const Mapper&&) = delete;
 
-        Error create_descriptor   (const BufferDescriptorInfo &descriptor_info, BufferDescriptor *descriptor);
         Error import_buffer       (const native_handle_t *raw_handle, native_handle_t **imported_handle);
         Error free_buffer         (native_handle_t *handle);
         Error validate_buffer_size(const native_handle_t *handle, const BufferDescriptorInfo &descriptor_info,
@@ -45,7 +44,6 @@ public:
         Error unlock              (native_handle_t *handle, int *fence);
         Error flush_locked_buffer (native_handle_t *handle, int *release_fence);
         Error reread_locked_buffer (native_handle_t *handle);
-        bool  is_supported        (const BufferDescriptorInfo &descriptor_info);
         Error get_reserved_region (native_handle_t *handle, void **reserved_region, uint64_t *reserved_region_size);
         bool  is_registered_handle(const native_handle_t *handle);
 
