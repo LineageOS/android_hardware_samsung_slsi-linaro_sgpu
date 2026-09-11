@@ -3,6 +3,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "5ae509e9_243f815c",
+        "filename": "sgpu_gralloc/src/gralloc5/MapperStableC.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 35850
+      },
+      "writtenOn": "2026-09-11T12:41:29Z",
+      "side": 1,
+      "message": "Use to SPDX copyright: https://github.com/LineageOS/android_hardware_samsung/blob/bbd776ace573f6aa4e8425f4ae634afd9def10b5/teegris/teecl.h#L2",
+      "revId": "5a23fe8c19e421d4bd6531045421a2f87f676360",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "8a96b07b_fc281208",
         "filename": "sgpu_gralloc/src/gralloc5/MapperStableC.cpp",
         "patchSetId": 5
