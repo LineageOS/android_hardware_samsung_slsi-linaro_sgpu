@@ -1,0 +1,106 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8a96b07b_fc281208",
+        "filename": "sgpu_gralloc/src/gralloc5/MapperStableC.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 24387
+      },
+      "writtenOn": "2026-09-11T07:41:14Z",
+      "side": 1,
+      "message": "maybe for style i would put the return on a newline across the file, as it is more readable rather than having it in a siingle line",
+      "revId": "5a23fe8c19e421d4bd6531045421a2f87f676360",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "eea252fe_8a9ac246",
+        "filename": "sgpu_gralloc/src/gralloc5/MapperStableC.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 24387
+      },
+      "writtenOn": "2026-09-11T07:41:14Z",
+      "side": 1,
+      "message": "I believe it is better to move the macros at the top of the file",
+      "revId": "5a23fe8c19e421d4bd6531045421a2f87f676360",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c9cfbf1c_b5a579f7",
+        "filename": "sgpu_gralloc/src/gralloc5/MapperStableC.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 24387
+      },
+      "writtenOn": "2026-09-11T07:41:14Z",
+      "side": 1,
+      "message": "I believe it is better to move the macros at the top of the file",
+      "revId": "5a23fe8c19e421d4bd6531045421a2f87f676360",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "58ae204a_4afa648c",
+        "filename": "sgpu_gralloc/src/gralloc5/MapperStableC.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 24387
+      },
+      "writtenOn": "2026-09-11T07:41:14Z",
+      "side": 1,
+      "message": "I believe it is better to move the macros at the top of the file",
+      "revId": "5a23fe8c19e421d4bd6531045421a2f87f676360",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2f6104ad_03e197af",
+        "filename": "sgpu_gralloc/src/gralloc5/MapperStableC.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 24387
+      },
+      "writtenOn": "2026-09-11T07:41:14Z",
+      "side": 1,
+      "message": "I believe it is better to move the macros at the top of the file",
+      "revId": "5a23fe8c19e421d4bd6531045421a2f87f676360",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1f9dfd2c_7b88a93f",
+        "filename": "sgpu_gralloc/src/gralloc5/MapperStableC.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 205,
+      "author": {
+        "id": 24387
+      },
+      "writtenOn": "2026-09-11T07:41:14Z",
+      "side": 1,
+      "message": "I believe it is better to move the macros at the top of the file",
+      "revId": "5a23fe8c19e421d4bd6531045421a2f87f676360",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71"
+    }
+  ]
+}
