@@ -3,6 +3,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "0a6bd7e3_dcf640a8",
+        "filename": "sgpu_gralloc/Android.bp",
+        "patchSetId": 5
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 35850
+      },
+      "writtenOn": "2026-09-11T12:43:00Z",
+      "side": 1,
+      "message": "Add EOF newline?",
+      "revId": "5a23fe8c19e421d4bd6531045421a2f87f676360",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "5ae509e9_243f815c",
         "filename": "sgpu_gralloc/src/gralloc5/MapperStableC.cpp",
         "patchSetId": 5
@@ -134,6 +151,40 @@
       "writtenOn": "2026-09-11T07:41:14Z",
       "side": 1,
       "message": "I believe it is better to move the macros at the top of the file",
+      "revId": "5a23fe8c19e421d4bd6531045421a2f87f676360",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b32705d6_d8ca1b46",
+        "filename": "sgpu_gralloc/src/gralloc5/MapperStableC.h",
+        "patchSetId": 5
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 35850
+      },
+      "writtenOn": "2026-09-11T12:43:00Z",
+      "side": 1,
+      "message": "Ditto",
+      "revId": "5a23fe8c19e421d4bd6531045421a2f87f676360",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7ce04135_1a995aea",
+        "filename": "sgpu_gralloc/src/gralloc5/converter.h",
+        "patchSetId": 5
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 35850
+      },
+      "writtenOn": "2026-09-11T12:43:00Z",
+      "side": 1,
+      "message": "Ditto",
       "revId": "5a23fe8c19e421d4bd6531045421a2f87f676360",
       "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71"
     }
